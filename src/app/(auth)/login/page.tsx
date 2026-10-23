@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Lock, Shield, ArrowRight, UserCheck, KeyRound, Sparkles } from 'lucide-react';
 import { usePatientStore } from '@/core/store/usePatientStore';
 import { DiscreetPinLock } from '@/components/auth/DiscreetPinLock';
-import { supabase } from '@/lib/supabase/client';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -51,6 +51,18 @@ export default function LoginPage() {
     e.preventDefault();
     if (!emailInput) return;
     setLoading(true);
+
+    if (!isSupabaseConfigured) {
+      setStatusMessage('Modo local privado activo. Accediendo con tu alias...');
+      setTimeout(() => {
+        setAlias(emailInput.split('@')[0] || 'Paciente');
+        unlockApp();
+        setLoading(false);
+        router.push('/');
+      }, 700);
+      return;
+    }
+
     setStatusMessage('Enviando enlace discreto de acceso...');
 
     try {

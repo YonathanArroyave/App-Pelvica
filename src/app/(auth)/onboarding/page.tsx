@@ -31,7 +31,7 @@ import {
   StpMatrix
 } from '@/core/types/clinical.types';
 import { getProtocolForWeek } from '@/core/engine/clinicalProgressionRules';
-import { supabase } from '@/lib/supabase/client';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 
 type OnboardingStep = 1 | 2 | 3 | 4 | 5;
 
@@ -125,19 +125,23 @@ export default function OnboardingPage() {
         await setPin(pinInput);
       }
 
-      // 3. Respaldo en la nube opcional vía Magic Link
+      // 3. Respaldo en la nube opcional vía Magic Link (si Supabase está configurado)
       if (wantsCloudBackup && emailInput.trim()) {
-        try {
-          await supabase.auth.signInWithOtp({
-            email: emailInput.trim(),
-            options: {
-              emailRedirectTo:
-                typeof window !== 'undefined' ? `${window.location.origin}/` : undefined
-            }
-          });
-        } catch {
-          // Si falla conexión o Supabase no está configurado, fallback local silencioso
-          console.warn('Modo local activo: los datos quedan guardados en este dispositivo.');
+        if (isSupabaseConfigured) {
+          try {
+            await supabase.auth.signInWithOtp({
+              email: emailInput.trim(),
+              options: {
+                emailRedirectTo:
+                  typeof window !== 'undefined' ? `${window.location.origin}/` : undefined
+              }
+            });
+          } catch {
+            console.warn('Modo local activo: los datos quedan guardados en este dispositivo.');
+          }
+        } else {
+          // Si no hay Supabase configurado en .env.local, se guarda localmente sin error de red
+          console.info('ℹ️ Supabase no configurado en .env.local. Modo local privado activo.');
         }
       }
 
