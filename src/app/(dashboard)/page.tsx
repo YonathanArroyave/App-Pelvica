@@ -19,6 +19,7 @@ import {
 import { usePatientStore } from '@/core/store/usePatientStore';
 import { getProtocolForWeek } from '@/core/engine/clinicalProgressionRules';
 import { PatientProfileModal } from '@/components/profile/PatientProfileModal';
+import { PelvicStretchesGuide } from '@/components/clinical/PelvicStretchesGuide';
 
 export default function DashboardHubPage() {
   const profile = usePatientStore((s) => s.profile);
@@ -28,6 +29,7 @@ export default function DashboardHubPage() {
   const hasCompletedOnboarding = assessments.length > 0;
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isStretchesOpen, setIsStretchesOpen] = useState(false);
 
   const globalDayNumber = ((profile.current_week - 1) * 7) + profile.current_day;
 
@@ -201,6 +203,32 @@ export default function DashboardHubPage() {
         </Link>
       </div>
 
+      {/* Acceso Destacado a Estiramientos Miofasciales Pélvicos */}
+      <div
+        onClick={() => setIsStretchesOpen(true)}
+        className="oled-card p-4 hover:border-[#00E676]/60 transition-all flex items-center justify-between cursor-pointer group bg-gradient-to-r from-[#11141E] via-[#11141E] to-[#0A1A12] border border-[#00E676]/30 shadow-md"
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-[#00E676]/15 text-[#00E676] flex items-center justify-center shrink-0 text-lg border border-[#00E676]/30 group-hover:scale-105 transition-transform">
+            🧘
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-xs font-bold text-white group-hover:text-[#00E676] transition-colors">
+                Estiramientos Pélvicos y Descompresión
+              </h3>
+              <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-md bg-[#00E676]/20 text-[#00E676]">
+                5 posturas
+              </span>
+            </div>
+            <p className="text-[11px] text-gray-400 mt-0.5 leading-snug">
+              Bebé Feliz, Postura del Niño y Piriforme: relaja la musculatura vecina y descomprime el nervio pudendo.
+            </p>
+          </div>
+        </div>
+        <ArrowRight className="w-4 h-4 text-[#00E676] shrink-0 group-hover:translate-x-1 transition-transform" />
+      </div>
+
       {/* Accesos Rápidos a Módulos Complementarios */}
       <div className="grid grid-cols-2 gap-3">
         <Link
@@ -257,6 +285,12 @@ export default function DashboardHubPage() {
       <PatientProfileModal
         isOpen={isProfileOpen}
         onClose={() => setIsProfileOpen(false)}
+      />
+
+      {/* Modal Guía de Estiramientos Pélvicos */}
+      <PelvicStretchesGuide
+        isOpen={isStretchesOpen}
+        onClose={() => setIsStretchesOpen(false)}
       />
     </div>
   );

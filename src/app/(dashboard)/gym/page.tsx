@@ -24,6 +24,7 @@ import { SvgTimerRing } from '@/components/timer/SvgTimerRing';
 import { ThumbZoneControls } from '@/components/timer/ThumbZoneControls';
 import { PartnerDualGuide } from '@/components/canvas3d/PartnerDualGuide';
 import { SoundpackSelector } from '@/components/timer/SoundpackSelector';
+import { PelvicStretchesGuide } from '@/components/clinical/PelvicStretchesGuide';
 import { ExerciseMode } from '@/core/types/clinical.types';
 
 export default function GymTrainingPage() {
@@ -32,6 +33,8 @@ export default function GymTrainingPage() {
   const advanceDay = usePatientStore((s) => s.advanceDay);
 
   const protocol = getProtocolForWeek(profile.current_week, profile.has_hypertonia);
+
+  const [isStretchesOpen, setIsStretchesOpen] = useState(false);
 
   // Modo de ejercicio activo
   const [selectedMode, setSelectedMode] = useState<ExerciseMode>(
@@ -271,6 +274,15 @@ export default function GymTrainingPage() {
               Solo: Stop-Start 7/10
             </button>
           )}
+
+          <button
+            type="button"
+            onClick={() => setIsStretchesOpen(true)}
+            className="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer bg-[#00E676]/15 border border-[#00E676]/40 text-[#00E676] hover:bg-[#00E676]/25 flex items-center gap-1.5"
+          >
+            <span>🧘</span>
+            <span>Estiramientos</span>
+          </button>
         </div>
       )}
 
@@ -423,6 +435,11 @@ export default function GymTrainingPage() {
         onToggleParasiticCompensation={(val) =>
           stateMachineRef.current?.setZeroParasiticCompensation(val)
         }
+      />
+      {/* Modal Guía de Estiramientos Pélvicos Miofasciales */}
+      <PelvicStretchesGuide
+        isOpen={isStretchesOpen}
+        onClose={() => setIsStretchesOpen(false)}
       />
     </div>
   );
