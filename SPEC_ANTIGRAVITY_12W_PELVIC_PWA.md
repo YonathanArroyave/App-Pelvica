@@ -593,9 +593,9 @@ Ejecuta la construcción del proyecto siguiendo estrictamente este orden y verif
 
   * [x] Construir `PartnerDualGuide.tsx` para la vista dividida Varón/Pareja en *Sensate Focus I/II*, *Partner Stop-Start* ($30\text{--}45\text{ s}$ de pausa) y *Squeeze* ($10\text{--}15\text{ s}$ de compresión).
 
-* \[ \] **Paso 4: Módulo 3 (CBT-Mobile y Matriz STP)**
+* [x] **Paso 4: Módulo 3 (CBT-Mobile y Matriz STP)**
 
-  * \[ \] Construir `StpDimmersMatrix.tsx` con deslizadores interactivos para factores excitatorios ($+$) e inhibitorios ($-$), y guías prácticas contra el Bucle de Barlow y el espectadorismo.
+  * [x] Construir `StpDimmersMatrix.tsx` con deslizadores interactivos para factores excitatorios ($+$) e inhibitorios ($-$), y guías prácticas contra el Bucle de Barlow y el espectadorismo.
 
 * \[ \] **Paso 5: Módulos 5 y 6 (Reto de 12 Semanas, Seguimiento al Paciente y EduSalud)**
 

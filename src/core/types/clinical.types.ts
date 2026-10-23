@@ -32,7 +32,8 @@ export type PartnerModality =
   | 'PASSIVE_EDU'
   | 'SENSATE_FOCUS_I'
   | 'PARTNER_STOP_START'
-  | 'COITAL_SQUEEZE';
+  | 'COITAL_SQUEEZE'
+  | 'SOLO_STOP_START';
 
 export interface HypertoniaSymptoms {
   pelvic_pain: boolean;              // Dolor perineal / pélvico
