@@ -72,12 +72,12 @@ export const PelvicMedicalSilhouette: React.FC<PelvicMedicalSilhouetteProps> = (
   const cue = getSomaticCue();
 
   return (
-    <div className={`relative flex flex-col items-center justify-between w-full h-full py-1 select-none ${className}`}>
-      {/* SVG del corte sagital anatómico compacto y centrado */}
-      <div className="flex-1 w-full flex items-center justify-center overflow-hidden">
+    <div className={`relative flex items-center justify-center w-full h-full select-none ${className}`}>
+      {/* SVG del corte sagital anatómico limpio y centrado */}
+      <div className="w-full h-full flex items-center justify-center overflow-hidden">
         <svg
           viewBox="0 0 240 210"
-          className="w-full max-w-[170px] max-h-[105px] drop-shadow-md overflow-visible"
+          className="w-full max-w-[190px] max-h-[125px] drop-shadow-md overflow-visible"
         >
           <defs>
             {/* Brillo neon del músculo activo */}
@@ -234,25 +234,6 @@ export const PelvicMedicalSilhouette: React.FC<PelvicMedicalSilhouetteProps> = (
             </text>
           </g>
         </svg>
-      </div>
-
-      {/* Cápsula inferior con fondo oscuro sólido y seguro contra colisiones */}
-      <div className="w-full flex justify-center px-2 pb-0.5 z-20">
-        <div className="bg-[#090A0F]/95 backdrop-blur-md border border-[#212838] px-3 py-1 rounded-xl shadow-xl max-w-[200px] text-center">
-          <div
-            className="text-[10px] font-extrabold uppercase tracking-wider flex items-center justify-center gap-1"
-            style={{ color: muscleColor }}
-          >
-            <span>{cue.arrow}</span>
-            <span>{cue.action}</span>
-            <span className="text-[9px] text-gray-400 font-mono">
-              ({Math.round(Math.abs(factor) * 100)}%)
-            </span>
-          </div>
-          <div className="text-[9px] text-gray-300 font-medium leading-tight truncate mt-0.5">
-            {cue.desc}
-          </div>
-        </div>
       </div>
     </div>
   );

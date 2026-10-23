@@ -77,10 +77,10 @@ export const PelvicElevatorGauge: React.FC<PelvicElevatorGaugeProps> = ({
   const heightPercent = getElevatorHeightPercent();
 
   return (
-    <div className={`relative flex flex-col items-center justify-between w-full h-full py-1 select-none ${className}`}>
+    <div className={`relative flex items-center justify-center w-full h-full select-none ${className}`}>
       {/* Contenedor central del pozo del ascensor compacto */}
-      <div className="flex-1 w-full flex items-center justify-center">
-        <div className="relative w-40 h-28 bg-[#0B0D14] rounded-2xl border border-[#1E2638] px-2.5 py-1.5 flex items-center justify-between shadow-inner">
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="relative w-42 h-32 bg-[#0B0D14] rounded-2xl border border-[#1E2638] px-3 py-2 flex items-center justify-between shadow-inner">
           {/* Marcadores de Pisos a la izquierda */}
           <div className="flex flex-col justify-between h-full py-0.5 text-[9px] font-bold">
             <div
@@ -177,21 +177,6 @@ export const PelvicElevatorGauge: React.FC<PelvicElevatorGaugeProps> = ({
             <span className="text-[8px] font-bold text-gray-300 leading-tight">
               {state.level}
             </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Cápsula somatosensorial inferior con fondo oscuro sólido y seguro */}
-      <div className="w-full flex justify-center px-2 pb-0.5 z-20">
-        <div className="bg-[#090A0F]/95 backdrop-blur-md border border-[#212838] px-3 py-1 rounded-xl shadow-xl max-w-[200px] text-center">
-          <div
-            className="text-[10px] font-extrabold uppercase tracking-wider"
-            style={{ color: state.color }}
-          >
-            {factor > 0 ? '▲ Subiendo Ascensor' : factor < -0.2 ? '▼ Descendiendo al Sótano' : '■ En Planta Baja'}
-          </div>
-          <div className="text-[9px] text-gray-300 font-medium leading-tight truncate mt-0.5">
-            {state.instruction}
           </div>
         </div>
       </div>
