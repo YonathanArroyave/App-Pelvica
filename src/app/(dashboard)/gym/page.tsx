@@ -274,17 +274,17 @@ export default function GymTrainingPage() {
         </div>
       )}
 
-      {/* Contenedor Principal: Escena 3D WebGL con Anillo Radial de Tiempo */}
+      {/* Contenedor Principal: Escena de Biofeedback con Anillo Radial de Tiempo */}
       <div className="oled-card p-4 flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-b from-[#11141E] to-[#090A0F]">
         <SvgTimerRing
           phase={snapshot.phase}
           timeRemainingSec={snapshot.timeRemainingSec}
           normalizedProgress={snapshot.normalizedProgress}
-          size={300}
+          size={320}
           strokeWidth={10}
         >
           {/* Visualizador Multivista de Biofeedback (Silueta Médica, Ascensor o Orbe) */}
-          <div className="w-60 h-60 flex items-center justify-center pointer-events-auto">
+          <div className="w-56 h-56 flex items-center justify-center pointer-events-auto overflow-hidden">
             <PelvicVisualizer
               contractionFactor={snapshot.contractionFactor}
               phase={snapshot.phase}
@@ -294,36 +294,59 @@ export default function GymTrainingPage() {
         </SvgTimerRing>
 
         {/* Indicador Central de Tiempo y Fase */}
-        <div className="text-center mt-3">
+        <div className="text-center mt-3 w-full max-w-xs">
           <div className="flex items-baseline justify-center gap-1">
             <span className="text-3xl font-extrabold text-white font-mono">
               {snapshot.timeRemainingSec}
             </span>
             <span className="text-xs text-gray-400 font-semibold">seg restantes</span>
           </div>
-          <span
-            className={`text-xs font-bold uppercase tracking-wider mt-0.5 inline-block ${
-              snapshot.phase === 'CONTRACTION'
-                ? 'text-[#7C4DFF]'
-                : snapshot.phase === 'REVERSE_KEGEL'
-                ? 'text-[#00E676]'
-                : snapshot.phase === 'PAUSE_STOP_START'
-                ? 'text-[#FF1744]'
-                : snapshot.phase === 'APPLY_SQUEEZE'
-                ? 'text-[#FFB300]'
-                : 'text-[#00E5FF]'
-            }`}
-          >
-            {snapshot.phase === 'PREPARATION' && 'Prepárate • Posición correcta'}
-            {snapshot.phase === 'CONTRACTION' && 'Cierre y Elevación (Contrae)'}
-            {snapshot.phase === 'RELAXATION' && 'Relajación y Respiración'}
-            {snapshot.phase === 'REVERSE_KEGEL' && 'Kegel Inverso (Desciende)'}
-            {snapshot.phase === 'STIMULATION_ACTIVE' && 'Estimulación Guiada Activa'}
-            {snapshot.phase === 'PAUSE_STOP_START' && '¡Pausa Stop-Start de 35s!'}
-            {snapshot.phase === 'APPLY_SQUEEZE' && 'Compresión Squeeze (12s)'}
-            {snapshot.phase === 'SET_REST' && 'Descanso entre series'}
-            {snapshot.phase === 'COMPLETED' && '¡Sesión Finalizada!'}
-          </span>
+
+          {/* Tarjeta de Instrucción Somatosensorial (100% nítida y libre de obstrucción) */}
+          <div className="mt-2.5 px-3.5 py-2 rounded-2xl bg-[#090A0F] border border-[#212838] shadow-inner text-center animate-fadeIn">
+            <span
+              className={`text-xs font-black uppercase tracking-wider block ${
+                snapshot.phase === 'CONTRACTION'
+                  ? 'text-[#7C4DFF]'
+                  : snapshot.phase === 'REVERSE_KEGEL'
+                  ? 'text-[#00E676]'
+                  : snapshot.phase === 'PAUSE_STOP_START'
+                  ? 'text-[#FF1744]'
+                  : snapshot.phase === 'APPLY_SQUEEZE'
+                  ? 'text-[#FFB300]'
+                  : 'text-[#00E5FF]'
+              }`}
+            >
+              {snapshot.phase === 'PREPARATION' && 'Prepárate • Posición correcta'}
+              {snapshot.phase === 'CONTRACTION' && '▲ Eleva y Cierra (Contrae)'}
+              {snapshot.phase === 'RELAXATION' && '■ Reposo Neutro • Respira'}
+              {snapshot.phase === 'REVERSE_KEGEL' && '▼ Suelta el Perineo (Kegel Inverso)'}
+              {snapshot.phase === 'STIMULATION_ACTIVE' && 'Estimulación Guiada Activa'}
+              {snapshot.phase === 'PAUSE_STOP_START' && '¡Pausa Stop-Start de 35s!'}
+              {snapshot.phase === 'APPLY_SQUEEZE' && 'Compresión Squeeze (12s)'}
+              {snapshot.phase === 'SET_REST' && 'Descanso entre series'}
+              {snapshot.phase === 'COMPLETED' && '¡Sesión Finalizada!'}
+            </span>
+
+            <p className="text-[11px] text-gray-300 font-medium leading-relaxed mt-1">
+              {snapshot.phase === 'CONTRACTION' &&
+                'Eleva los testículos hacia el ombligo y corta el flujo • Sin apretar glúteos ni abdomen'}
+              {snapshot.phase === 'REVERSE_KEGEL' &&
+                'Deja caer la entrepierna como al empezar a orinar (relaja suavemente sin pujar)'}
+              {snapshot.phase === 'RELAXATION' &&
+                'Relaja el 100% del suelo pélvico e inhala inflando la parte baja del abdomen'}
+              {snapshot.phase === 'PAUSE_STOP_START' &&
+                'Detén toda estimulación y respira hondo hasta que baje la urgencia eyaculatoria'}
+              {snapshot.phase === 'APPLY_SQUEEZE' &&
+                'Aplica compresión suave con el pulgar en el frenillo para desactivar el reflejo'}
+              {snapshot.phase === 'PREPARATION' &&
+                'Adopta la postura recomendada y relaja los hombros antes de comenzar'}
+              {snapshot.phase === 'SET_REST' &&
+                'Recupérate, bebe agua y mantén la mente en calma para la siguiente serie'}
+              {snapshot.phase === 'COMPLETED' &&
+                '¡Excelente trabajo neuromuscular registrado en tu progreso diario!'}
+            </p>
+          </div>
         </div>
       </div>
 

@@ -25,20 +25,10 @@ export const PelvicElevatorGauge: React.FC<PelvicElevatorGaugeProps> = ({
 }) => {
   const factor = Math.max(-1, Math.min(1, contractionFactor));
 
-  // Determinar en qué piso se encuentra la cabina del ascensor:
-  // factor de -1.0 a 1.0 se proyecta al recorrido visual del eje vertical
-  // Porcentaje de altura visual:
-  // Sótano (-1.0) = 5% desde abajo
-  // Planta Baja (0.0) = 30% desde abajo
-  // Piso 1 (0.33) = 52% desde abajo
-  // Piso 2 (0.66) = 75% desde abajo
-  // Piso 3 (1.0) = 95% desde abajo
   const getElevatorHeightPercent = () => {
     if (factor >= 0) {
-      // 0 a 1.0 mapeado de 30% a 95%
       return 30 + factor * 65;
     }
-    // -1.0 a 0 mapeado de 5% a 30%
     return 30 + factor * 25;
   };
 
@@ -87,119 +77,122 @@ export const PelvicElevatorGauge: React.FC<PelvicElevatorGaugeProps> = ({
   const heightPercent = getElevatorHeightPercent();
 
   return (
-    <div className={`relative flex flex-col items-center justify-center w-full h-full select-none ${className}`}>
-      {/* Contenedor central del pozo del ascensor */}
-      <div className="relative w-44 h-38 bg-[#0B0D14] rounded-2xl border border-[#1E2638] px-3 py-2 flex items-center justify-between shadow-inner">
-        {/* Marcadores de Pisos a la izquierda */}
-        <div className="flex flex-col justify-between h-full py-0.5 text-[10px] font-bold">
-          <div
-            className={`flex items-center gap-1.5 transition-colors ${
-              factor >= 0.75 ? 'text-[#7C4DFF] font-extrabold' : 'text-gray-500'
-            }`}
-          >
-            <span className="w-4 text-right">P3</span>
-            <span className="text-[9px] font-mono">100%</span>
+    <div className={`relative flex flex-col items-center justify-between w-full h-full py-1 select-none ${className}`}>
+      {/* Contenedor central del pozo del ascensor compacto */}
+      <div className="flex-1 w-full flex items-center justify-center">
+        <div className="relative w-40 h-28 bg-[#0B0D14] rounded-2xl border border-[#1E2638] px-2.5 py-1.5 flex items-center justify-between shadow-inner">
+          {/* Marcadores de Pisos a la izquierda */}
+          <div className="flex flex-col justify-between h-full py-0.5 text-[9px] font-bold">
+            <div
+              className={`flex items-center gap-1 transition-colors ${
+                factor >= 0.75 ? 'text-[#7C4DFF] font-extrabold' : 'text-gray-500'
+              }`}
+            >
+              <span className="w-3 text-right">P3</span>
+              <span className="text-[8px] font-mono">100%</span>
+            </div>
+
+            <div
+              className={`flex items-center gap-1 transition-colors ${
+                factor >= 0.45 && factor < 0.75 ? 'text-[#00E5FF] font-extrabold' : 'text-gray-500'
+              }`}
+            >
+              <span className="w-3 text-right">P2</span>
+              <span className="text-[8px] font-mono">66%</span>
+            </div>
+
+            <div
+              className={`flex items-center gap-1 transition-colors ${
+                factor >= 0.15 && factor < 0.45 ? 'text-[#2DD4BF] font-extrabold' : 'text-gray-500'
+              }`}
+            >
+              <span className="w-3 text-right">P1</span>
+              <span className="text-[8px] font-mono">33%</span>
+            </div>
+
+            <div
+              className={`flex items-center gap-1 transition-colors ${
+                factor > -0.2 && factor < 0.15 ? 'text-white font-extrabold' : 'text-gray-500'
+              }`}
+            >
+              <span className="w-3 text-right">PB</span>
+              <span className="text-[8px] font-mono">0%</span>
+            </div>
+
+            <div
+              className={`flex items-center gap-1 transition-colors ${
+                factor <= -0.2 ? 'text-[#00E676] font-extrabold' : 'text-gray-500'
+              }`}
+            >
+              <span className="w-3 text-right">S</span>
+              <span className="text-[8px] font-mono">Desc</span>
+            </div>
           </div>
 
-          <div
-            className={`flex items-center gap-1.5 transition-colors ${
-              factor >= 0.45 && factor < 0.75 ? 'text-[#00E5FF] font-extrabold' : 'text-gray-500'
-            }`}
-          >
-            <span className="w-4 text-right">P2</span>
-            <span className="text-[9px] font-mono">66%</span>
+          {/* Pozo y riel vertical de la cabina */}
+          <div className="relative w-10 h-full bg-[#131825] rounded-xl border border-[#212838] overflow-hidden flex flex-col justify-end">
+            <div className="absolute inset-0 flex flex-col justify-between p-1 pointer-events-none opacity-20">
+              <div className="w-full h-px bg-white" />
+              <div className="w-full h-px bg-white" />
+              <div className="w-full h-px bg-white" />
+              <div className="w-full h-px bg-white" />
+              <div className="w-full h-px bg-white" />
+            </div>
+
+            {/* Relleno lumínico del ascensor desde la planta baja */}
+            <div
+              className="absolute left-0 right-0 transition-all duration-150 ease-out"
+              style={{
+                bottom: factor >= 0 ? '30%' : `${heightPercent}%`,
+                height: factor >= 0 ? `${heightPercent - 30}%` : `${30 - heightPercent}%`,
+                backgroundColor: state.color,
+                opacity: 0.25
+              }}
+            />
+
+            {/* Cabina móvil del ascensor */}
+            <div
+              className="absolute left-1 right-1 h-5 rounded-md flex items-center justify-center font-mono font-bold text-[9px] text-white shadow-lg transition-all duration-150 ease-out z-10"
+              style={{
+                bottom: `calc(${heightPercent}% - 10px)`,
+                backgroundColor: state.color,
+                boxShadow: `0 0 10px ${state.color}`
+              }}
+            >
+              {factor >= 0 ? `+${Math.round(factor * 100)}%` : `${Math.round(factor * 100)}%`}
+            </div>
           </div>
 
-          <div
-            className={`flex items-center gap-1.5 transition-colors ${
-              factor >= 0.15 && factor < 0.45 ? 'text-[#2DD4BF] font-extrabold' : 'text-gray-500'
-            }`}
-          >
-            <span className="w-4 text-right">P1</span>
-            <span className="text-[9px] font-mono">33%</span>
+          {/* Panel lateral derecho con estado actual */}
+          <div className="flex flex-col justify-center items-center text-center w-12">
+            <span className="text-[8px] font-semibold text-gray-400 uppercase tracking-wider">
+              Nivel
+            </span>
+            <span
+              className="text-xs font-black tracking-wide my-0.5"
+              style={{ color: state.color }}
+            >
+              {state.floor}
+            </span>
+            <span className="text-[8px] font-bold text-gray-300 leading-tight">
+              {state.level}
+            </span>
           </div>
-
-          <div
-            className={`flex items-center gap-1.5 transition-colors ${
-              factor > -0.2 && factor < 0.15 ? 'text-white font-extrabold' : 'text-gray-500'
-            }`}
-          >
-            <span className="w-4 text-right">PB</span>
-            <span className="text-[9px] font-mono">0%</span>
-          </div>
-
-          <div
-            className={`flex items-center gap-1.5 transition-colors ${
-              factor <= -0.2 ? 'text-[#00E676] font-extrabold' : 'text-gray-500'
-            }`}
-          >
-            <span className="w-4 text-right">S</span>
-            <span className="text-[9px] font-mono">Desc</span>
-          </div>
-        </div>
-
-        {/* Pozo y riel vertical de la cabina */}
-        <div className="relative w-12 h-full bg-[#131825] rounded-xl border border-[#212838] overflow-hidden flex flex-col justify-end">
-          {/* Fondo del riel con marcas */}
-          <div className="absolute inset-0 flex flex-col justify-between p-1 pointer-events-none opacity-20">
-            <div className="w-full h-px bg-white" />
-            <div className="w-full h-px bg-white" />
-            <div className="w-full h-px bg-white" />
-            <div className="w-full h-px bg-white" />
-            <div className="w-full h-px bg-white" />
-          </div>
-
-          {/* Relleno lumínico del ascensor desde la planta baja */}
-          <div
-            className="absolute left-0 right-0 transition-all duration-150 ease-out"
-            style={{
-              bottom: factor >= 0 ? '30%' : `${heightPercent}%`,
-              height: factor >= 0 ? `${heightPercent - 30}%` : `${30 - heightPercent}%`,
-              backgroundColor: state.color,
-              opacity: 0.25
-            }}
-          />
-
-          {/* Cabina móvil del ascensor con indicador numérico */}
-          <div
-            className="absolute left-1 right-1 h-6 rounded-lg flex items-center justify-center font-mono font-bold text-[10px] text-white shadow-lg transition-all duration-150 ease-out z-10"
-            style={{
-              bottom: `calc(${heightPercent}% - 12px)`,
-              backgroundColor: state.color,
-              boxShadow: `0 0 12px ${state.color}`
-            }}
-          >
-            {factor >= 0 ? `+${Math.round(factor * 100)}%` : `${Math.round(factor * 100)}%`}
-          </div>
-        </div>
-
-        {/* Panel lateral derecho con estado actual */}
-        <div className="flex flex-col justify-center items-center text-center w-14">
-          <span className="text-[9px] font-semibold text-gray-400 uppercase tracking-wider">
-            Nivel
-          </span>
-          <span
-            className="text-xs font-black tracking-wide my-0.5"
-            style={{ color: state.color }}
-          >
-            {state.floor}
-          </span>
-          <span className="text-[8px] font-bold text-gray-300 leading-tight">
-            {state.level}
-          </span>
         </div>
       </div>
 
-      {/* Pista somatosensorial inferior */}
-      <div className="text-center px-2 py-0.5 mt-1 z-10">
-        <div
-          className="text-[11px] font-extrabold uppercase tracking-wider"
-          style={{ color: state.color }}
-        >
-          {factor > 0 ? '▲ Subiendo Ascensor' : factor < -0.2 ? '▼ Descendiendo al Sótano' : '■ En Planta Baja'}
-        </div>
-        <div className="text-[10px] text-gray-300 font-medium leading-tight max-w-[210px] mx-auto mt-0.5">
-          {state.instruction}
+      {/* Cápsula somatosensorial inferior con fondo oscuro sólido y seguro */}
+      <div className="w-full flex justify-center px-2 pb-0.5 z-20">
+        <div className="bg-[#090A0F]/95 backdrop-blur-md border border-[#212838] px-3 py-1 rounded-xl shadow-xl max-w-[200px] text-center">
+          <div
+            className="text-[10px] font-extrabold uppercase tracking-wider"
+            style={{ color: state.color }}
+          >
+            {factor > 0 ? '▲ Subiendo Ascensor' : factor < -0.2 ? '▼ Descendiendo al Sótano' : '■ En Planta Baja'}
+          </div>
+          <div className="text-[9px] text-gray-300 font-medium leading-tight truncate mt-0.5">
+            {state.instruction}
+          </div>
         </div>
       </div>
     </div>

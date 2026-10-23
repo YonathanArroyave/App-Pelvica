@@ -30,16 +30,14 @@ export const BiofeedbackOrb: React.FC<BiofeedbackOrbProps> = ({
     ? '#7C4DFF' // Violeta Tensión
     : '#00E5FF'; // Cian Reposo
 
-  // Radio y escala:
-  // Al contraer se condensa hacia el centro (escala 0.7)
-  // Al relajar / elongar se expande hacia afuera (escala 1.15)
-  const scale = factor >= 0 ? 1 - factor * 0.35 : 1 + Math.abs(factor) * 0.25;
+  // Radio y escala compacta para no colisionar con el aro exterior:
+  const scale = factor >= 0 ? 1 - factor * 0.3 : 1 + Math.abs(factor) * 0.2;
 
   const getStatusText = () => {
     if (isReverseKegel) {
       return {
         verb: 'SUELTA Y DEJA CAER',
-        detail: 'Como al empezar a orinar • Inhala profundo y abre la entrepierna'
+        detail: 'Como al empezar a orinar • Inhala profundo'
       };
     }
     if (factor > 0.7) {
@@ -63,15 +61,15 @@ export const BiofeedbackOrb: React.FC<BiofeedbackOrbProps> = ({
   const status = getStatusText();
 
   return (
-    <div className={`relative flex flex-col items-center justify-center w-full h-full select-none ${className}`}>
+    <div className={`relative flex flex-col items-center justify-between w-full h-full py-1 select-none ${className}`}>
       {/* Contenedor central del orbe orgánico */}
-      <div className="relative w-40 h-36 flex items-center justify-center">
+      <div className="flex-1 w-full flex items-center justify-center relative">
         {/* Anillo de onda exterior */}
         <div
           className="absolute rounded-full border border-dashed transition-all duration-300 ease-out"
           style={{
-            width: `${130 * scale}px`,
-            height: `${130 * scale}px`,
+            width: `${105 * scale}px`,
+            height: `${105 * scale}px`,
             borderColor: primaryColor,
             opacity: 0.25
           }}
@@ -81,8 +79,8 @@ export const BiofeedbackOrb: React.FC<BiofeedbackOrbProps> = ({
         <div
           className="absolute rounded-full blur-xl transition-all duration-200 ease-out"
           style={{
-            width: `${100 * scale}px`,
-            height: `${100 * scale}px`,
+            width: `${80 * scale}px`,
+            height: `${80 * scale}px`,
             backgroundColor: primaryColor,
             opacity: 0.3 + Math.abs(factor) * 0.35
           }}
@@ -92,8 +90,8 @@ export const BiofeedbackOrb: React.FC<BiofeedbackOrbProps> = ({
         <div
           className="absolute rounded-full border-2 transition-all duration-200 ease-out"
           style={{
-            width: `${86 * scale}px`,
-            height: `${86 * scale}px`,
+            width: `${72 * scale}px`,
+            height: `${72 * scale}px`,
             borderColor: primaryColor,
             opacity: 0.6
           }}
@@ -103,11 +101,11 @@ export const BiofeedbackOrb: React.FC<BiofeedbackOrbProps> = ({
         <div
           className="relative rounded-full flex flex-col items-center justify-center shadow-2xl transition-all duration-150 ease-out"
           style={{
-            width: `${68 * scale}px`,
-            height: `${68 * scale}px`,
+            width: `${56 * scale}px`,
+            height: `${56 * scale}px`,
             backgroundColor: '#090A0F',
             border: `2px solid ${primaryColor}`,
-            boxShadow: `0 0 20px ${primaryColor}`
+            boxShadow: `0 0 16px ${primaryColor}`
           }}
         >
           <span className="font-mono text-xs font-black text-white">
@@ -119,16 +117,18 @@ export const BiofeedbackOrb: React.FC<BiofeedbackOrbProps> = ({
         </div>
       </div>
 
-      {/* Pista somatosensorial inferior */}
-      <div className="text-center px-2 py-0.5 mt-[-2px] z-10">
-        <div
-          className="text-[11px] font-extrabold uppercase tracking-wider"
-          style={{ color: primaryColor }}
-        >
-          {status.verb}
-        </div>
-        <div className="text-[10px] text-gray-300 font-medium leading-tight max-w-[200px] mx-auto mt-0.5">
-          {status.detail}
+      {/* Cápsula somatosensorial inferior con fondo oscuro sólido y seguro */}
+      <div className="w-full flex justify-center px-2 pb-0.5 z-20">
+        <div className="bg-[#090A0F]/95 backdrop-blur-md border border-[#212838] px-3 py-1 rounded-xl shadow-xl max-w-[200px] text-center">
+          <div
+            className="text-[10px] font-extrabold uppercase tracking-wider"
+            style={{ color: primaryColor }}
+          >
+            {status.verb}
+          </div>
+          <div className="text-[9px] text-gray-300 font-medium leading-tight truncate mt-0.5">
+            {status.detail}
+          </div>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import React from 'react';
 import type { ActivePhase } from '@/core/types/clinical.types';
 
 interface PelvicMedicalSilhouetteProps {
-  contractionFactor: number; // -1.0 (máx relajación/kegel inverso) a 1.0 (máx contracción)
+  contractionFactor: number; // -1.0 a 1.0
   phase?: ActivePhase;
   className?: string;
 }
@@ -20,9 +20,6 @@ export const PelvicMedicalSilhouette: React.FC<PelvicMedicalSilhouetteProps> = (
   phase,
   className = ''
 }) => {
-  // Normalizar factor:
-  // > 0 => contracción (elevación hacia arriba y adelante)
-  // < 0 => relajación/kegel inverso (descenso diafragmático)
   const factor = Math.max(-1, Math.min(1, contractionFactor));
 
   // Posición Y de la hamaca del suelo pélvico (en el centro del arco pubis-cóccix):
@@ -75,187 +72,186 @@ export const PelvicMedicalSilhouette: React.FC<PelvicMedicalSilhouetteProps> = (
   const cue = getSomaticCue();
 
   return (
-    <div className={`relative flex flex-col items-center justify-center w-full h-full select-none ${className}`}>
-      {/* SVG del corte sagital anatómico */}
-      <svg
-        viewBox="0 0 240 210"
-        className="w-full h-full max-w-[230px] max-h-[190px] drop-shadow-md overflow-visible"
-      >
-        <defs>
-          {/* Brillo neon del músculo activo */}
-          <filter id="muscleGlow" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="3.5" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-
-          {/* Gradiente de elevación */}
-          <linearGradient id="liftGradient" x1="0%" y1="100%" x2="0%" y2="0%">
-            <stop offset="0%" stopColor={muscleColor} stopOpacity="0.0" />
-            <stop offset="100%" stopColor={muscleColor} stopOpacity={Math.abs(factor) * 0.4} />
-          </linearGradient>
-        </defs>
-
-        {/* 1. Silueta corporal externa de perfil (Pared abdominal, pubis, glúteo y muslo) */}
-        <path
-          d="M 50 25 Q 52 70 65 110 Q 75 140 92 165 Q 105 185 105 200"
-          fill="none"
-          stroke="#212838"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeDasharray="2 3"
-        />
-        {/* Contorno posterior: Columna lumbar, sacro y glúteo */}
-        <path
-          d="M 185 25 Q 180 70 175 105 Q 170 135 180 160 Q 192 185 188 200"
-          fill="none"
-          stroke="#212838"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeDasharray="2 3"
-        />
-
-        {/* 2. Referencias Óseas Claras (Fijas) */}
-        {/* Sínfisis del Pubis (Hueso anterior) */}
-        <g transform="translate(72, 125)">
-          <rect
-            x="-8"
-            y="-10"
-            width="16"
-            height="22"
-            rx="6"
-            fill="#1E2638"
-            stroke="#475569"
-            strokeWidth="2"
-          />
-          <text
-            x="-4"
-            y="26"
-            fill="#94A3B8"
-            fontSize="8"
-            fontWeight="bold"
-            letterSpacing="0.5"
-          >
-            PUBIS
-          </text>
-        </g>
-
-        {/* Cóccix / Sacro (Hueso posterior) */}
-        <g transform="translate(168, 130)">
-          <path
-            d="M -6 -16 L 6 -16 L 3 12 L -3 12 Z"
-            fill="#1E2638"
-            stroke="#475569"
-            strokeWidth="2"
-            strokeLinejoin="round"
-          />
-          <text
-            x="-14"
-            y="24"
-            fill="#94A3B8"
-            fontSize="8"
-            fontWeight="bold"
-            letterSpacing="0.5"
-          >
-            CÓCCIX
-          </text>
-        </g>
-
-        {/* 3. Vejiga urinaria (Referencia visceral superior) */}
-        <path
-          d="M 85 85 C 85 62, 155 62, 155 85 C 155 108, 125 118, 120 128 C 115 118, 85 108, 85 85 Z"
-          fill="#0F172A"
-          stroke="#334155"
-          strokeWidth="1.5"
-          strokeDasharray="3 3"
-        />
-        <text
-          x="120"
-          y="88"
-          textAnchor="middle"
-          fill="#475569"
-          fontSize="8"
-          fontWeight="semibold"
+    <div className={`relative flex flex-col items-center justify-between w-full h-full py-1 select-none ${className}`}>
+      {/* SVG del corte sagital anatómico compacto y centrado */}
+      <div className="flex-1 w-full flex items-center justify-center overflow-hidden">
+        <svg
+          viewBox="0 0 240 210"
+          className="w-full max-w-[170px] max-h-[105px] drop-shadow-md overflow-visible"
         >
-          Vejiga
-        </text>
+          <defs>
+            {/* Brillo neon del músculo activo */}
+            <filter id="muscleGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="3.5" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
 
-        {/* 4. Campo de Deformación / Sombra de Elevación */}
-        {factor > 0.05 && (
+            {/* Gradiente de elevación */}
+            <linearGradient id="liftGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stopColor={muscleColor} stopOpacity="0.0" />
+              <stop offset="100%" stopColor={muscleColor} stopOpacity={Math.abs(factor) * 0.4} />
+            </linearGradient>
+          </defs>
+
+          {/* 1. Silueta corporal externa de perfil */}
           <path
-            d={`M 74 135 Q 120 ${muscleLiftY} 165 138 L 165 145 Q 120 145 74 135 Z`}
-            fill="url(#liftGradient)"
-            className="transition-all duration-150 ease-out"
+            d="M 50 25 Q 52 70 65 110 Q 75 140 92 165 Q 105 185 105 200"
+            fill="none"
+            stroke="#212838"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeDasharray="2 3"
           />
-        )}
+          <path
+            d="M 185 25 Q 180 70 175 105 Q 170 135 180 160 Q 192 185 188 200"
+            fill="none"
+            stroke="#212838"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeDasharray="2 3"
+          />
 
-        {/* 5. MÚSCULO DEL SUELO PÉLVICO (Hamaca dinámica en movimiento) */}
-        {/* Conecta la Sínfisis Púbica (x=74, y=135) con el Cóccix (x=165, y=138) */}
-        <path
-          d={`M 74 135 Q 120 ${muscleLiftY} 165 138`}
-          fill="none"
-          stroke={muscleColor}
-          strokeWidth={muscleStrokeWidth}
-          strokeLinecap="round"
-          filter="url(#muscleGlow)"
-          className="transition-all duration-150 ease-out"
-        />
-
-        {/* Puntos de inserción osteotendinosos */}
-        <circle cx="74" cy="135" r="3.5" fill="#FFFFFF" />
-        <circle cx="165" cy="138" r="3.5" fill="#FFFFFF" />
-
-        {/* 6. Flecha y Vector de Elevación/Descenso */}
-        {Math.abs(factor) > 0.15 && (
-          <g transform={`translate(120, ${muscleLiftY + (factor > 0 ? -16 : 14)})`}>
-            {/* Círculo fondo de flecha */}
-            <circle cx="0" cy="0" r="10" fill="#090A0F" stroke={muscleColor} strokeWidth="1.5" />
+          {/* 2. Referencias Óseas Claras (Fijas) */}
+          {/* Sínfisis del Pubis */}
+          <g transform="translate(72, 125)">
+            <rect
+              x="-8"
+              y="-10"
+              width="16"
+              height="22"
+              rx="6"
+              fill="#1E2638"
+              stroke="#475569"
+              strokeWidth="2"
+            />
             <text
-              x="0"
-              y="4"
-              textAnchor="middle"
-              fill={muscleColor}
-              fontSize="12"
+              x="-4"
+              y="26"
+              fill="#94A3B8"
+              fontSize="8"
               fontWeight="bold"
+              letterSpacing="0.5"
             >
-              {cue.arrow}
+              PUBIS
             </text>
           </g>
-        )}
 
-        {/* Etiqueta flotante del músculo */}
-        <g transform={`translate(120, ${muscleLiftY + (factor > 0 ? 16 : -8)})`}>
+          {/* Cóccix / Sacro */}
+          <g transform="translate(168, 130)">
+            <path
+              d="M -6 -16 L 6 -16 L 3 12 L -3 12 Z"
+              fill="#1E2638"
+              stroke="#475569"
+              strokeWidth="2"
+              strokeLinejoin="round"
+            />
+            <text
+              x="-14"
+              y="24"
+              fill="#94A3B8"
+              fontSize="8"
+              fontWeight="bold"
+              letterSpacing="0.5"
+            >
+              CÓCCIX
+            </text>
+          </g>
+
+          {/* 3. Vejiga urinaria */}
+          <path
+            d="M 85 85 C 85 62, 155 62, 155 85 C 155 108, 125 118, 120 128 C 115 118, 85 108, 85 85 Z"
+            fill="#0F172A"
+            stroke="#334155"
+            strokeWidth="1.5"
+            strokeDasharray="3 3"
+          />
           <text
-            x="0"
-            y="0"
+            x="120"
+            y="88"
             textAnchor="middle"
-            fill={muscleColor}
-            fontSize="9"
-            fontWeight="bold"
-            letterSpacing="0.5"
-            className="drop-shadow"
+            fill="#475569"
+            fontSize="8"
+            fontWeight="semibold"
           >
-            SUELO PÉLVICO
+            Vejiga
           </text>
-        </g>
-      </svg>
 
-      {/* Indicador inferior directo con pista somatosensorial */}
-      <div className="text-center px-2 py-0.5 mt-[-4px] z-10">
-        <div
-          className="text-[11px] font-extrabold uppercase tracking-wider flex items-center justify-center gap-1.5"
-          style={{ color: muscleColor }}
-        >
-          <span>{cue.arrow}</span>
-          <span>{cue.action}</span>
-          <span className="text-[10px] text-gray-400 font-mono">
-            ({Math.round(Math.abs(factor) * 100)}%)
-          </span>
-        </div>
-        <div className="text-[10px] text-gray-300 font-medium leading-tight max-w-[200px] mx-auto mt-0.5">
-          {cue.desc}
+          {/* 4. Campo de Deformación / Sombra de Elevación */}
+          {factor > 0.05 && (
+            <path
+              d={`M 74 135 Q 120 ${muscleLiftY} 165 138 L 165 145 Q 120 145 74 135 Z`}
+              fill="url(#liftGradient)"
+              className="transition-all duration-150 ease-out"
+            />
+          )}
+
+          {/* 5. MÚSCULO DEL SUELO PÉLVICO */}
+          <path
+            d={`M 74 135 Q 120 ${muscleLiftY} 165 138`}
+            fill="none"
+            stroke={muscleColor}
+            strokeWidth={muscleStrokeWidth}
+            strokeLinecap="round"
+            filter="url(#muscleGlow)"
+            className="transition-all duration-150 ease-out"
+          />
+
+          <circle cx="74" cy="135" r="3.5" fill="#FFFFFF" />
+          <circle cx="165" cy="138" r="3.5" fill="#FFFFFF" />
+
+          {/* 6. Flecha y Vector de Elevación/Descenso */}
+          {Math.abs(factor) > 0.15 && (
+            <g transform={`translate(120, ${muscleLiftY + (factor > 0 ? -16 : 14)})`}>
+              <circle cx="0" cy="0" r="10" fill="#090A0F" stroke={muscleColor} strokeWidth="1.5" />
+              <text
+                x="0"
+                y="4"
+                textAnchor="middle"
+                fill={muscleColor}
+                fontSize="12"
+                fontWeight="bold"
+              >
+                {cue.arrow}
+              </text>
+            </g>
+          )}
+
+          <g transform={`translate(120, ${muscleLiftY + (factor > 0 ? 16 : -8)})`}>
+            <text
+              x="0"
+              y="0"
+              textAnchor="middle"
+              fill={muscleColor}
+              fontSize="9"
+              fontWeight="bold"
+              letterSpacing="0.5"
+              className="drop-shadow"
+            >
+              SUELO PÉLVICO
+            </text>
+          </g>
+        </svg>
+      </div>
+
+      {/* Cápsula inferior con fondo oscuro sólido y seguro contra colisiones */}
+      <div className="w-full flex justify-center px-2 pb-0.5 z-20">
+        <div className="bg-[#090A0F]/95 backdrop-blur-md border border-[#212838] px-3 py-1 rounded-xl shadow-xl max-w-[200px] text-center">
+          <div
+            className="text-[10px] font-extrabold uppercase tracking-wider flex items-center justify-center gap-1"
+            style={{ color: muscleColor }}
+          >
+            <span>{cue.arrow}</span>
+            <span>{cue.action}</span>
+            <span className="text-[9px] text-gray-400 font-mono">
+              ({Math.round(Math.abs(factor) * 100)}%)
+            </span>
+          </div>
+          <div className="text-[9px] text-gray-300 font-medium leading-tight truncate mt-0.5">
+            {cue.desc}
+          </div>
         </div>
       </div>
     </div>
