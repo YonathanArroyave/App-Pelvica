@@ -585,13 +585,13 @@ Ejecuta la construcción del proyecto siguiendo estrictamente este orden y verif
 
   * [x] Implementar la regla condicional: si `has_hypertonia === true`, bloquear modos de contracción y redirigir el plan diario a `DOWN_TRAINING`.
 
-* \[ \] **Paso 3: Módulos 2 y 4 (Motor de Estados, APIs Sensoriales, Escena 3D y Modo Pareja)**
+* [x] **Paso 3: Módulos 2 y 4 (Motor de Estados, APIs Sensoriales, Escena 3D y Modo Pareja)**
 
-  * \[ \] Implementar `sensoryFeedbackEngine.ts` y la máquina de estados del temporizador.
+  * [x] Implementar `sensoryFeedbackEngine.ts` y la máquina de estados del temporizador.
 
-  * \[ \] Construir `PelvicMeshScene.tsx` con los shaders GLSL, rodeado por `SvgTimerRing.tsx` y controlado desde `ThumbZoneControls.tsx` (incluyendo el selector de excitación $1\text{--}10$ y botón de pausa en nivel $7\text{--}8/10$).
+  * [x] Construir `PelvicMeshScene.tsx` con los shaders GLSL, rodeado por `SvgTimerRing.tsx` y controlado desde `ThumbZoneControls.tsx` (incluyendo el selector de excitación $1\text{--}10$ y botón de pausa en nivel $7\text{--}8/10$).
 
-  * \[ \] Construir `PartnerDualGuide.tsx` para la vista dividida Varón/Pareja en *Sensate Focus I/II*, *Partner Stop-Start* ($30\text{--}45\text{ s}$ de pausa) y *Squeeze* ($10\text{--}15\text{ s}$ de compresión).
+  * [x] Construir `PartnerDualGuide.tsx` para la vista dividida Varón/Pareja en *Sensate Focus I/II*, *Partner Stop-Start* ($30\text{--}45\text{ s}$ de pausa) y *Squeeze* ($10\text{--}15\text{ s}$ de compresión).
 
 * \[ \] **Paso 4: Módulo 3 (CBT-Mobile y Matriz STP)**
 
