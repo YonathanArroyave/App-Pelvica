@@ -19,10 +19,33 @@ import { getProtocolForWeek } from '@/core/engine/clinicalProgressionRules';
 
 export default function DashboardHubPage() {
   const profile = usePatientStore((s) => s.profile);
+  const assessments = usePatientStore((s) => s.assessments);
   const currentProtocol = getProtocolForWeek(profile.current_week, profile.has_hypertonia);
+  const hasCompletedOnboarding = assessments.length > 0;
 
   return (
     <div className="space-y-5 pt-3 animate-fadeIn">
+      {/* Banner de Onboarding Pendiente si es la primera vez */}
+      {!hasCompletedOnboarding && (
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-[#00E5FF]/15 via-[#7C4DFF]/15 to-[#00E5FF]/10 border border-[#00E5FF]/40 glow-cyan flex items-center justify-between">
+          <div className="space-y-0.5">
+            <span className="text-xs font-bold text-[#00E5FF] flex items-center gap-1.5">
+              <Sparkles className="w-4 h-4 text-[#00E5FF]" />
+              Cribado Basal Pendiente
+            </span>
+            <p className="text-[11px] text-gray-300">
+              Calibra tu tono basal, calcula tu PEDT y registra tu IELT de inicio.
+            </p>
+          </div>
+          <Link
+            href="/onboarding"
+            className="px-3.5 py-2 rounded-xl bg-[#00E5FF] text-[#090A0F] text-xs font-bold shrink-0 hover:bg-[#00cce6] transition-all flex items-center gap-1"
+          >
+            <span>Evaluar</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+      )}
       {/* Tarjeta de Bienvenida y Estado del Paciente */}
       <div className="oled-card p-5 relative overflow-hidden bg-gradient-to-br from-[#11141E] via-[#11141E] to-[#181D2B]">
         <div className="absolute top-0 right-0 w-32 h-32 bg-[#00E5FF]/5 rounded-full blur-3xl pointer-events-none" />

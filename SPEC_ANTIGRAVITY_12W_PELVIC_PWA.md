@@ -579,11 +579,11 @@ Ejecuta la construcción del proyecto siguiendo estrictamente este orden y verif
 
   * [x] Configurar cliente Supabase, ejecutar `schema.sql` y construir la vista `/login` (acceso discreto + bloqueo por PIN de 4 dígitos).
 
-* \[ \] **Paso 2: Módulo 1 (Onboarding Clínico, PEDT/IELT y Bloqueador de Hipertonía)**
+* [x] **Paso 2: Módulo 1 (Onboarding Clínico, PEDT/IELT y Bloqueador de Hipertonía)**
 
-  * \[ \] Construir `HypertoniaScreener.tsx` y `PedtQuestionnaire.tsx`.
+  * [x] Construir `HypertoniaScreener.tsx` y `PedtQuestionnaire.tsx`.
 
-  * \[ \] Implementar la regla condicional: si `has_hypertonia === true`, bloquear modos de contracción y redirigir el plan diario a `DOWN_TRAINING`.
+  * [x] Implementar la regla condicional: si `has_hypertonia === true`, bloquear modos de contracción y redirigir el plan diario a `DOWN_TRAINING`.
 
 * \[ \] **Paso 3: Módulos 2 y 4 (Motor de Estados, APIs Sensoriales, Escena 3D y Modo Pareja)**
 
