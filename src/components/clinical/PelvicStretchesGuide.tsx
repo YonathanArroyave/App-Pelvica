@@ -226,15 +226,15 @@ export const PelvicStretchesGuide: React.FC<PelvicStretchesGuideProps> = ({
             )}
           </div>
 
-          {/* Gráfico 2D Vectorial de la Postura */}
+          {/* Guía Anatómica 3D Muscular de la Postura */}
           <div className="space-y-1">
             <div className="flex items-center justify-between text-[11px] text-gray-400 font-semibold px-0.5">
               <span className="flex items-center gap-1.5 text-gray-300">
-                <Eye className="w-3.5 h-3.5 text-[#00E676]" />
-                Ilustración Anatómica 2D
+                <Eye className="w-3.5 h-3.5 text-[#00E5FF]" />
+                Atlas Anatómico Muscular 3D
               </span>
-              <span className="text-[10px] text-[#00E676] bg-[#00E676]/10 px-2 py-0.5 rounded-full border border-[#00E676]/25 font-bold">
-                ● Verde = Zona de descompresión
+              <span className="text-[10px] text-[#FF6E40] bg-[#FF3D00]/10 px-2 py-0.5 rounded-full border border-[#FF3D00]/30 font-bold">
+                🔥 Rojo = Fibras en elongación
               </span>
             </div>
             <PelvicStretchIllustration stretchId={currentStretch.id} />
