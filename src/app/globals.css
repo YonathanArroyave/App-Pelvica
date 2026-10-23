@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+:root {
+  --background: #090a0f;
+  --foreground: #f0f4f8;
+  --card: #11141e;
+  --card-foreground: #f0f4f8;
+  --popover: #11141e;
+  --popover-foreground: #f0f4f8;
+  --primary: #00e5ff;
+  --primary-foreground: #090a0f;
+  --secondary: #7c4dff;
+  --secondary-foreground: #ffffff;
+  --muted: #1c2130;
+  --muted-foreground: #8a99ad;
+  --accent: #00e676;
+  --accent-foreground: #090a0f;
+  --destructive: #ff1744;
+  --destructive-foreground: #ffffff;
+  --border: #212838;
+  --input: #1a1f2c;
+  --ring: #00e5ff;
+  --radius: 0.75rem;
+}
+
+@theme {
+  --color-oled-black: #090a0f;
+  --color-oled-surface: #11141e;
+  --color-oled-elevated: #181d2b;
+  --color-oled-border: #212838;
+  --color-clinical-cyan: #00e5ff;
+  --color-clinical-violet: #7c4dff;
+  --color-clinical-emerald: #00e676;
+  --color-clinical-amber: #ffb300;
+  --color-clinical-crimson: #ff1744;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  background-color: #090a0f;
+  color: #f0f4f8;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ergonomía Mobile-First: Thumb-Zone de 40mm fija inferior */
+.thumb-zone-dock {
+  min-height: 40mm;
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  padding-top: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background: linear-gradient(180deg, rgba(9, 10, 15, 0.85) 0%, rgba(9, 10, 15, 0.98) 35%, #090a0f 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Glassmorphism discreto OLED */
+.oled-card {
+  background-color: #11141e;
+  border: 1px solid #212838;
+  border-radius: 1rem;
+}
+
+.oled-card-hover {
+  transition: all 0.2s ease-in-out;
+}
+.oled-card-hover:active {
+  transform: scale(0.98);
+  border-color: #00e5ff;
+}
+
+/* Glow sutil para estados clínicos activos */
+.glow-cyan {
+  box-shadow: 0 0 20px -5px rgba(0, 229, 255, 0.35);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 20px -5px rgba(0, 230, 118, 0.35);
+}
+
+.glow-violet {
+  box-shadow: 0 0 20px -5px rgba(124, 77, 255, 0.35);
+}
+
+.glow-crimson {
+  box-shadow: 0 0 20px -5px rgba(255, 23, 68, 0.4);
+}
