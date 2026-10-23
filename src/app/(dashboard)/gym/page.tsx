@@ -19,7 +19,7 @@ import { usePatientStore } from '@/core/store/usePatientStore';
 import { getProtocolForWeek } from '@/core/engine/clinicalProgressionRules';
 import { TimerStateMachine, TimerStateMachineSnapshot } from '@/core/engine/timerStateMachine';
 import { sensoryEngine } from '@/core/engine/sensoryFeedbackEngine';
-import { PelvicMeshScene } from '@/components/canvas3d/PelvicMeshScene';
+import { PelvicVisualizer } from '@/components/biofeedback/PelvicVisualizer';
 import { SvgTimerRing } from '@/components/timer/SvgTimerRing';
 import { ThumbZoneControls } from '@/components/timer/ThumbZoneControls';
 import { PartnerDualGuide } from '@/components/canvas3d/PartnerDualGuide';
@@ -283,10 +283,11 @@ export default function GymTrainingPage() {
           size={300}
           strokeWidth={10}
         >
-          {/* Lienzo 3D Three.js incrustado en el centro del anillo */}
-          <div className="w-56 h-56 flex items-center justify-center pointer-events-auto">
-            <PelvicMeshScene
+          {/* Visualizador Multivista de Biofeedback (Silueta Médica, Ascensor o Orbe) */}
+          <div className="w-60 h-60 flex items-center justify-center pointer-events-auto">
+            <PelvicVisualizer
               contractionFactor={snapshot.contractionFactor}
+              phase={snapshot.phase}
               className="w-full h-full"
             />
           </div>
