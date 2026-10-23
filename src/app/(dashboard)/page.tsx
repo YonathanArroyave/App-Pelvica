@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
   Play,
@@ -12,16 +12,24 @@ import {
   ArrowRight,
   HeartPulse,
   Brain,
-  Info
+  Info,
+  Lock,
+  Settings
 } from 'lucide-react';
 import { usePatientStore } from '@/core/store/usePatientStore';
 import { getProtocolForWeek } from '@/core/engine/clinicalProgressionRules';
+import { PatientProfileModal } from '@/components/profile/PatientProfileModal';
 
 export default function DashboardHubPage() {
   const profile = usePatientStore((s) => s.profile);
   const assessments = usePatientStore((s) => s.assessments);
+  const lockApp = usePatientStore((s) => s.lockApp);
   const currentProtocol = getProtocolForWeek(profile.current_week, profile.has_hypertonia);
   const hasCompletedOnboarding = assessments.length > 0;
+
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  const globalDayNumber = ((profile.current_week - 1) * 7) + profile.current_day;
 
   return (
     <div className="space-y-5 pt-3 animate-fadeIn">
@@ -34,7 +42,7 @@ export default function DashboardHubPage() {
               Cribado Basal Pendiente
             </span>
             <p className="text-[11px] text-gray-300">
-              Calibra tu tono basal, calcula tu PEDT y registra tu IELT de inicio.
+              Calibra tu tono basal, calcula tu PEDT y registra tu tiempo de inicio.
             </p>
           </div>
           <Link
@@ -46,22 +54,65 @@ export default function DashboardHubPage() {
           </Link>
         </div>
       )}
+
       {/* Tarjeta de Bienvenida y Estado del Paciente */}
       <div className="oled-card p-5 relative overflow-hidden bg-gradient-to-br from-[#11141E] via-[#11141E] to-[#181D2B]">
         <div className="absolute top-0 right-0 w-32 h-32 bg-[#00E5FF]/5 rounded-full blur-3xl pointer-events-none" />
         <div className="flex items-start justify-between">
           <div>
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
-              Reto Clínico 12 Semanas
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+                Reto Clínico 12 Semanas
+              </span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#00E5FF]/10 text-[#00E5FF] border border-[#00E5FF]/20">
+                Día {globalDayNumber} de 84
+              </span>
+            </div>
             <h1 className="text-xl font-bold text-white mt-0.5">
               Hola, {profile.alias}
             </h1>
           </div>
-          <div className="text-right">
+          <div className="flex items-center gap-1.5">
+            {profile.pin_hash && (
+              <button
+                type="button"
+                onClick={lockApp}
+                title="Bloquear aplicación con PIN"
+                className="p-2 rounded-xl bg-[#181D2B] border border-[#212838] text-gray-300 hover:text-[#7C4DFF] hover:border-[#7C4DFF]/40 transition-colors cursor-pointer"
+              >
+                <Lock className="w-4 h-4" />
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => setIsProfileOpen(true)}
+              title="Ajustes de Perfil y Privacidad"
+              className="p-2 rounded-xl bg-[#181D2B] border border-[#212838] text-gray-300 hover:text-white hover:border-gray-500 transition-colors cursor-pointer"
+            >
+              <Settings className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Indicador de Racha, Neuroplasticidad y Progreso */}
+        <div className="grid grid-cols-3 gap-2 mt-3.5 pt-3 border-t border-[#212838] text-xs">
+          <div>
+            <span className="text-[10px] text-gray-400 block">Semana Activa</span>
+            <span className="font-bold text-white text-[11px]">
+              Semana {profile.current_week} / 12
+            </span>
+          </div>
+          <div>
+            <span className="text-[10px] text-gray-400 block">Racha Actual</span>
+            <span className="font-bold text-[#FFB300] flex items-center gap-1 text-[11px]">
+              <Flame className="w-3.5 h-3.5 fill-[#FFB300]" />
+              {profile.current_streak} días
+            </span>
+          </div>
+          <div>
             <span className="text-[10px] text-gray-400 block">Neuroplasticidad</span>
-            <span className="text-sm font-bold text-[#7C4DFF] flex items-center justify-end gap-1">
-              <Award className="w-4 h-4 text-[#7C4DFF]" />
+            <span className="font-bold text-[#7C4DFF] flex items-center gap-1 text-[11px]">
+              <Award className="w-3.5 h-3.5" />
               {profile.neuroplasticity_xp} XP
             </span>
           </div>
@@ -146,7 +197,7 @@ export default function DashboardHubPage() {
           className="w-full h-13 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#7C4DFF] text-[#090A0F] font-bold text-sm flex items-center justify-center gap-2 hover:opacity-95 active:scale-[0.99] transition-all shadow-lg shadow-cyan-500/25 cursor-pointer glow-cyan"
         >
           <Play className="w-5 h-5 fill-[#090A0F]" />
-          <span>Iniciar Sesión Guiada en 3D</span>
+          <span>Iniciar Sesión Guiada</span>
         </Link>
       </div>
 
@@ -201,6 +252,12 @@ export default function DashboardHubPage() {
           </p>
         </div>
       </div>
+
+      {/* Modal de Ajustes de Perfil y Privacidad */}
+      <PatientProfileModal
+        isOpen={isProfileOpen}
+        onClose={() => setIsProfileOpen(false)}
+      />
     </div>
   );
 }

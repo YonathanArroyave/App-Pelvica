@@ -165,19 +165,24 @@ export function PedtQuestionnaire({
         </div>
       </div>
 
-      {/* Control Deslizante de IELT Basal */}
-      <div className="oled-card p-4 space-y-3">
+      {/* Control Deslizante de IELT Basal (Tiempo de Penetración Activa) */}
+      <div className="oled-card p-4 space-y-3 border border-[#212838]">
         <div className="flex items-center justify-between">
-          <label className="text-xs font-semibold text-white flex items-center gap-1.5">
+          <label className="text-xs font-bold text-white flex items-center gap-1.5">
             <Clock className="w-4 h-4 text-[#00E5FF]" />
-            Latencia Intravaginal Basal (IELT en segundos):
+            Tiempo de penetración activa antes de eyacular:
           </label>
-          <span className="text-xs font-bold text-[#00E5FF] bg-[#00E5FF]/10 px-2.5 py-0.5 rounded-lg border border-[#00E5FF]/20">
+          <span className="text-xs font-mono font-bold text-[#00E5FF] bg-[#00E5FF]/10 px-2.5 py-0.5 rounded-lg border border-[#00E5FF]/20">
             {ieltSeconds < 60
               ? `${ieltSeconds} seg`
               : `${Math.floor(ieltSeconds / 60)} min ${ieltSeconds % 60} s`}
           </span>
         </div>
+
+        <p className="text-[11px] text-gray-400 leading-relaxed">
+          Mide la duración promedio (en minutos o segundos) desde que inicia la penetración hasta el clímax (conocido en medicina como <strong>IELT</strong>).
+        </p>
+
         <input
           type="range"
           min="10"
@@ -187,11 +192,11 @@ export function PedtQuestionnaire({
           onChange={(e) => handleIeltChange(Number(e.target.value))}
           className="w-full accent-[#00E5FF] cursor-pointer h-2 bg-[#090A0F] rounded-lg"
         />
-        <div className="flex justify-between text-[10px] text-gray-500">
-          <span>10s (Severo)</span>
-          <span className="text-[#FF1744]">60s (Umbral Clínico EP)</span>
+        <div className="flex justify-between text-[10px] text-gray-400 font-medium">
+          <span>10s (Muy rápido)</span>
+          <span className="text-[#FF1744] font-semibold">60s (1 min - Umbral clínico)</span>
           <span>180s (3 min)</span>
-          <span>360s (6 min)</span>
+          <span>360s (6+ min)</span>
         </div>
       </div>
 
