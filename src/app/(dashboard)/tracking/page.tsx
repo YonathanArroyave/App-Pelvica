@@ -8,11 +8,15 @@ import {
   Calendar,
   Sparkles,
   TrendingUp,
-  ShieldCheck
+  ShieldCheck,
+  Activity
 } from 'lucide-react';
 import { usePatientStore } from '@/core/store/usePatientStore';
+import { PatientMetricsChart } from '@/components/clinical/PatientMetricsChart';
 import { TwelveWeekRoadmap } from '@/components/gamification/TwelveWeekRoadmap';
 import { AchievementBadges } from '@/components/gamification/AchievementBadges';
+
+type TrackingTab = 'CHARTS' | 'ROADMAP' | 'ACHIEVEMENTS';
 
 export default function TrackingPage() {
   const profile = usePatientStore((s) => s.profile);
@@ -20,9 +24,9 @@ export default function TrackingPage() {
   const assessments = usePatientStore((s) => s.assessments);
   const sessions = usePatientStore((s) => s.trainingSessions);
 
-  const [activeTab, setActiveTab] = useState<'ROADMAP' | 'ACHIEVEMENTS'>('ROADMAP');
+  const [activeTab, setActiveTab] = useState<TrackingTab>('CHARTS');
 
-  const baselineAssessment = assessments[assessments.length - 1];
+  const baselineAssessment = assessments.find((a) => a.week_number === 0);
 
   return (
     <div className="space-y-4 pt-1 animate-fadeIn pb-12">
@@ -33,10 +37,10 @@ export default function TrackingPage() {
             <div className="w-8 h-8 rounded-xl bg-[#00E676]/15 text-[#00E676] flex items-center justify-center">
               <BarChart3 className="w-4 h-4" />
             </div>
-            <h1 className="text-base font-bold text-white">Seguimiento & Logros</h1>
+            <h1 className="text-base font-bold text-white">Seguimiento & Métricas</h1>
           </div>
           <p className="text-xs text-gray-400 mt-0.5">
-            Progreso del Reto de 12 Semanas y Neuroplasticidad
+            Evolución Longitudinal de IELT, PEDT y Adherencia
           </p>
         </div>
 
@@ -46,7 +50,7 @@ export default function TrackingPage() {
         </div>
       </div>
 
-      {/* Métricas Principales */}
+      {/* Resumen Superior de Indicadores Clave */}
       <div className="grid grid-cols-3 gap-2 text-center text-xs">
         <div className="oled-card p-3 border border-[#212838]">
           <span className="text-[10px] text-gray-400 block">IELT Basal</span>
@@ -68,40 +72,50 @@ export default function TrackingPage() {
         </div>
       </div>
 
-      {/* Selector de Pestaña: Hoja de Ruta vs. Insignias */}
-      <div className="grid grid-cols-2 gap-1.5 p-1 bg-[#11141E] rounded-2xl border border-[#212838]">
+      {/* Selector de Pestaña Principal (3 Pestañas) */}
+      <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#11141E] rounded-2xl border border-[#212838]">
+        <button
+          type="button"
+          onClick={() => setActiveTab('CHARTS')}
+          className={`py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+            activeTab === 'CHARTS'
+              ? 'bg-[#00E5FF] text-[#090A0F] shadow-sm'
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          <TrendingUp className="w-3.5 h-3.5" />
+          <span>Gráficos</span>
+        </button>
         <button
           type="button"
           onClick={() => setActiveTab('ROADMAP')}
           className={`py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
             activeTab === 'ROADMAP'
-              ? 'bg-[#00E5FF] text-[#090A0F] shadow-sm'
+              ? 'bg-[#7C4DFF] text-white shadow-sm'
               : 'text-gray-400 hover:text-white'
           }`}
         >
           <Calendar className="w-3.5 h-3.5" />
-          <span>Mapa 12 Semanas</span>
+          <span>12 Semanas</span>
         </button>
         <button
           type="button"
           onClick={() => setActiveTab('ACHIEVEMENTS')}
           className={`py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
             activeTab === 'ACHIEVEMENTS'
-              ? 'bg-[#7C4DFF] text-white shadow-sm'
+              ? 'bg-[#00E676] text-[#090A0F] shadow-sm'
               : 'text-gray-400 hover:text-white'
           }`}
         >
           <Award className="w-3.5 h-3.5" />
-          <span>Logros ({achievements.length}/5)</span>
+          <span>Logros</span>
         </button>
       </div>
 
-      {/* Contenido Dinámico */}
-      {activeTab === 'ROADMAP' ? (
-        <TwelveWeekRoadmap />
-      ) : (
-        <AchievementBadges />
-      )}
+      {/* Contenido Dinámico según la Pestaña */}
+      {activeTab === 'CHARTS' && <PatientMetricsChart />}
+      {activeTab === 'ROADMAP' && <TwelveWeekRoadmap />}
+      {activeTab === 'ACHIEVEMENTS' && <AchievementBadges />}
     </div>
   );
 }

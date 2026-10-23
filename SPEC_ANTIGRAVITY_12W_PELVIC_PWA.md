@@ -597,11 +597,11 @@ Ejecuta la construcción del proyecto siguiendo estrictamente este orden y verif
 
   * [x] Construir `StpDimmersMatrix.tsx` con deslizadores interactivos para factores excitatorios ($+$) e inhibitorios ($-$), y guías prácticas contra el Bucle de Barlow y el espectadorismo.
 
-* \[ \] **Paso 5: Módulos 5 y 6 (Reto de 12 Semanas, Seguimiento al Paciente y EduSalud)**
+* [x] **Paso 5: Módulos 5 y 6 (Reto de 12 Semanas, Seguimiento al Paciente y EduSalud)**
 
-  * \[ \] Conectar `clinicalProgressionRules.ts` con `TwelveWeekRoadmap.tsx` y `AchievementBadges.tsx` (incluyendo bifurcación automática a *Ruta Individual Solo* si `has_partner === false`).
+  * [x] Conectar `clinicalProgressionRules.ts` con `TwelveWeekRoadmap.tsx` y `AchievementBadges.tsx` (incluyendo bifurcación automática a *Ruta Individual Solo* si `has_partner === false`).
 
-  * \[ \] Construir `PatientMetricsChart.tsx` con las gráficas de evolución de IELT, PEDT y adherencia de 84 días, junto con la tabla comparativa de evidencia científica en `/edusalud`.
+  * [x] Construir `PatientMetricsChart.tsx` con las gráficas de evolución de IELT, PEDT y adherencia de 84 días, junto con la tabla comparativa de evidencia científica en `/edusalud`.
 
 ## 9. Orquestación del Ecosistema ECC (`affaan-m/ecc`) — Directivas de Skills, Agentes y Comandos
 
