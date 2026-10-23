@@ -10,11 +10,12 @@ import {
   ChevronLeft,
   CheckCircle2,
   Sparkles,
-  Heart,
   Info,
-  Clock
+  Eye,
+  AlertTriangle
 } from 'lucide-react';
 import { sensoryEngine } from '@/core/engine/sensoryFeedbackEngine';
+import { PelvicStretchIllustration } from './PelvicStretchIllustration';
 
 export interface PelvicStretch {
   id: string;
@@ -159,16 +160,16 @@ export const PelvicStretchesGuide: React.FC<PelvicStretchesGuideProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 animate-fadeIn">
-      <div className="w-full max-w-md bg-[#0D111A] border border-[#212838] rounded-3xl p-5 space-y-4 shadow-2xl relative max-h-[95vh] overflow-y-auto">
+      <div className="w-full max-w-lg bg-[#0D111A] border border-[#212838] rounded-3xl p-5 space-y-3.5 shadow-2xl relative max-h-[95vh] overflow-y-auto">
         {/* Header con botón de cerrar */}
-        <div className="flex items-center justify-between pb-3 border-b border-[#212838]">
+        <div className="flex items-center justify-between pb-2.5 border-b border-[#212838]">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-[#00E676]/15 text-[#00E676] flex items-center justify-center">
               <Sparkles className="w-4 h-4" />
             </div>
             <div>
               <h3 className="text-sm font-bold text-white">Estiramientos Pélvicos Miofasciales</h3>
-              <p className="text-[10px] text-gray-400">Postura {currentIndex + 1} de {PELVIC_STRETCHES.length}</p>
+              <p className="text-[10px] text-gray-400">Postura {currentIndex + 1} de {PELVIC_STRETCHES.length} • Descompresión del Diafragma Pélvico</p>
             </div>
           </div>
 
@@ -179,6 +180,32 @@ export const PelvicStretchesGuide: React.FC<PelvicStretchesGuideProps> = ({
           >
             <X className="w-4 h-4" />
           </button>
+        </div>
+
+        {/* Barra de Pestañas Rápidas para Navegar las 5 Posturas */}
+        <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+          {PELVIC_STRETCHES.map((s, idx) => {
+            const isCurrent = currentIndex === idx;
+            const isDone = completedStretches.includes(s.id);
+            const shortNames = ['1. Niño', '2. Bebé Feliz', '3. Figura 4', '4. Mariposa', '5. Zancada'];
+            return (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => setCurrentIndex(idx)}
+                className={`px-2.5 py-1.5 rounded-xl text-[10px] font-bold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1 ${
+                  isCurrent
+                    ? 'bg-[#00E676] text-[#090A0F] shadow-md shadow-[#00E676]/20'
+                    : isDone
+                    ? 'bg-[#182032] text-[#00E676] border border-[#00E676]/30'
+                    : 'bg-[#11141E] border border-[#212838] text-gray-400 hover:text-white'
+                }`}
+              >
+                <span>{shortNames[idx]}</span>
+                {isDone && <CheckCircle2 className="w-3 h-3 text-[#00E676]" />}
+              </button>
+            );
+          })}
         </div>
 
         {/* Tarjeta de la Postura Activa */}
@@ -193,69 +220,105 @@ export const PelvicStretchesGuide: React.FC<PelvicStretchesGuideProps> = ({
               </h4>
             </div>
             {completedStretches.includes(currentStretch.id) && (
-              <span className="flex items-center gap-1 text-[10px] font-bold text-[#00E676] bg-[#00E676]/15 px-2 py-0.5 rounded-full">
+              <span className="flex items-center gap-1 text-[10px] font-bold text-[#00E676] bg-[#00E676]/15 px-2.5 py-0.5 rounded-full border border-[#00E676]/30">
                 <CheckCircle2 className="w-3 h-3" /> Completado
               </span>
             )}
           </div>
 
-          <p className="text-xs text-gray-300 leading-relaxed">
-            {currentStretch.somaticInstruction}
-          </p>
-
-          <div className="p-2.5 rounded-xl bg-[#090A0F] border border-[#212838] text-[11px] space-y-1">
-            <div className="flex items-center gap-1 text-[#00E5FF] font-semibold">
-              <Info className="w-3.5 h-3.5" />
-              <span>Beneficio Clínico:</span>
+          {/* Gráfico 2D Vectorial de la Postura */}
+          <div className="space-y-1">
+            <div className="flex items-center justify-between text-[11px] text-gray-400 font-semibold px-0.5">
+              <span className="flex items-center gap-1.5 text-gray-300">
+                <Eye className="w-3.5 h-3.5 text-[#00E676]" />
+                Ilustración Anatómica 2D
+              </span>
+              <span className="text-[10px] text-[#00E676] bg-[#00E676]/10 px-2 py-0.5 rounded-full border border-[#00E676]/25 font-bold">
+                ● Verde = Zona de descompresión
+              </span>
             </div>
-            <p className="text-gray-400 text-[10px] leading-tight">
-              {currentStretch.clinicalPurpose}
-            </p>
+            <PelvicStretchIllustration stretchId={currentStretch.id} />
           </div>
 
-          {/* Temporizador Integrado de Estiramiento */}
-          <div className="flex flex-col items-center justify-center pt-2">
-            <div className="relative w-36 h-36 flex items-center justify-center">
-              {/* Círculo SVG de progreso */}
-              <svg className="w-full h-full transform -rotate-90">
-                <circle
-                  cx="72"
-                  cy="72"
-                  r="60"
-                  stroke="#181D2B"
-                  strokeWidth="6"
-                  fill="transparent"
-                />
-                <circle
-                  cx="72"
-                  cy="72"
-                  r="60"
-                  stroke="#00E676"
-                  strokeWidth="6"
-                  strokeDasharray={2 * Math.PI * 60}
-                  strokeDashoffset={2 * Math.PI * 60 * (1 - progressPercent / 100)}
-                  strokeLinecap="round"
-                  fill="transparent"
-                  className="transition-all duration-300 ease-linear"
-                />
-              </svg>
+          {/* Instrucción Somatosensorial Clara */}
+          <div className="p-3 rounded-xl bg-[#090A0F] border border-[#212838] text-xs text-gray-300 leading-relaxed">
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">
+              Cómo realizarlo paso a paso:
+            </span>
+            {currentStretch.somaticInstruction}
+          </div>
 
-              <div className="absolute inset-0 flex flex-col items-center justify-center select-none">
-                <span className="text-3xl font-extrabold font-mono text-white">
-                  {timeRemaining}s
+          {/* Beneficio Clínico y Qué Evitar */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+            <div className="p-2.5 rounded-xl bg-[#090A0F] border border-[#212838] space-y-1">
+              <div className="flex items-center gap-1 text-[#00E5FF] font-semibold">
+                <Info className="w-3.5 h-3.5" />
+                <span>Beneficio Clínico:</span>
+              </div>
+              <p className="text-gray-400 text-[10px] leading-tight">
+                {currentStretch.clinicalPurpose}
+              </p>
+            </div>
+
+            <div className="p-2.5 rounded-xl bg-[#090A0F] border border-[#212838] space-y-1">
+              <div className="flex items-center gap-1 text-[#FFB300] font-semibold">
+                <AlertTriangle className="w-3.5 h-3.5" />
+                <span>Qué Evitar:</span>
+              </div>
+              <p className="text-gray-400 text-[10px] leading-tight">
+                {currentStretch.whatToAvoid}
+              </p>
+            </div>
+          </div>
+
+          {/* Temporizador Integrado Horizontal Compacto */}
+          <div className="flex items-center justify-between p-3 rounded-2xl bg-[#090A0F] border border-[#212838]">
+            <div className="flex items-center gap-3">
+              <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
+                <svg className="w-full h-full transform -rotate-90">
+                  <circle
+                    cx="28"
+                    cy="28"
+                    r="23"
+                    stroke="#181D2B"
+                    strokeWidth="4"
+                    fill="transparent"
+                  />
+                  <circle
+                    cx="28"
+                    cy="28"
+                    r="23"
+                    stroke="#00E676"
+                    strokeWidth="4"
+                    strokeDasharray={2 * Math.PI * 23}
+                    strokeDashoffset={2 * Math.PI * 23 * (1 - progressPercent / 100)}
+                    strokeLinecap="round"
+                    fill="transparent"
+                    className="transition-all duration-300 ease-linear"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-xs font-black font-mono text-white">
+                    {timeRemaining}s
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <span className="text-xs font-bold text-white block">
+                  {isRunning ? 'Sostén y respira hondo' : timeRemaining === 0 ? '¡Postura completada!' : 'Temporizador de 60s'}
                 </span>
-                <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">
-                  {isRunning ? 'Sostén y Respira' : timeRemaining === 0 ? '¡Listo!' : 'Pausado'}
+                <span className="text-[10px] text-gray-400 block mt-0.5">
+                  {isRunning ? 'Inhala inflando el vientre suavemente' : 'Cronometra el estiramiento guiado'}
                 </span>
               </div>
             </div>
 
-            {/* Controles del temporizador */}
-            <div className="flex items-center gap-2 mt-2">
+            <div className="flex items-center gap-1.5">
               <button
                 type="button"
                 onClick={toggleTimer}
-                className={`px-5 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer ${
+                className={`px-3.5 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer ${
                   isRunning
                     ? 'bg-[#FF1744] text-white hover:bg-red-600'
                     : 'bg-[#00E676] text-[#090A0F] hover:bg-[#00c966]'
@@ -269,7 +332,7 @@ export const PelvicStretchesGuide: React.FC<PelvicStretchesGuideProps> = ({
                 ) : (
                   <>
                     <Play className="w-3.5 h-3.5 fill-current" />
-                    <span>{timeRemaining === 0 ? 'Repetir' : 'Iniciar 60s'}</span>
+                    <span>{timeRemaining === 0 ? 'Repetir' : 'Iniciar'}</span>
                   </>
                 )}
               </button>
@@ -299,7 +362,7 @@ export const PelvicStretchesGuide: React.FC<PelvicStretchesGuideProps> = ({
           </button>
 
           <span className="text-xs text-gray-400 font-medium">
-            {currentIndex + 1} de {PELVIC_STRETCHES.length}
+            Postura {currentIndex + 1} de {PELVIC_STRETCHES.length}
           </span>
 
           <button
