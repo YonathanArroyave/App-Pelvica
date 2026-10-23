@@ -5,6 +5,7 @@
 // ==============================================================================
 
 import { ActivePhase, ExerciseMode } from '../types/clinical.types';
+import { advancedAudio, SoundpackType } from './advancedAudioEngine';
 
 export interface TimerEngineConfig {
   mode: ExerciseMode;
@@ -98,27 +99,15 @@ export class SensoryFeedbackEngine {
   }
 
   public playPhaseSound(phase: ActivePhase): void {
-    switch (phase) {
-      case 'CONTRACTION':
-        this.playTone(523.25, 'sine', 350); // C5 (Tensión ascendente)
-        break;
-      case 'RELAXATION':
-        this.playTone(329.63, 'sine', 400); // E4 (Relajación descendente)
-        break;
-      case 'REVERSE_KEGEL':
-        this.playTone(261.63, 'sine', 500); // C4 (Tono grave de elongación diafragmática)
-        break;
-      case 'PAUSE_STOP_START':
-      case 'APPLY_SQUEEZE':
-        this.playTone(698.46, 'triangle', 250); // F5 (Alerta firme)
-        break;
-      case 'COMPLETED':
-        this.playTone(587.33, 'sine', 400);
-        setTimeout(() => this.playTone(880, 'sine', 600), 200);
-        break;
-      default:
-        break;
-    }
+    advancedAudio.playPhaseSound(phase);
+  }
+
+  public setSoundpack(pack: SoundpackType): void {
+    advancedAudio.setSoundpack(pack);
+  }
+
+  public getSoundpack(): SoundpackType {
+    return advancedAudio.getSoundpack();
   }
 
   public async requestWakeLock(): Promise<boolean> {

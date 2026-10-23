@@ -23,6 +23,7 @@ import { PelvicMeshScene } from '@/components/canvas3d/PelvicMeshScene';
 import { SvgTimerRing } from '@/components/timer/SvgTimerRing';
 import { ThumbZoneControls } from '@/components/timer/ThumbZoneControls';
 import { PartnerDualGuide } from '@/components/canvas3d/PartnerDualGuide';
+import { SoundpackSelector } from '@/components/timer/SoundpackSelector';
 import { ExerciseMode } from '@/core/types/clinical.types';
 
 export default function GymTrainingPage() {
@@ -372,6 +373,9 @@ export default function GymTrainingPage() {
           </div>
         </div>
       )}
+
+      {/* Selector de Experiencia Sonora y Biofeedback */}
+      <SoundpackSelector />
 
       {/* Controles de la Thumb-Zone (40 mm Inferiores) */}
       <ThumbZoneControls
