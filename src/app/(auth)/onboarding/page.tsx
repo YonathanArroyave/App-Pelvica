@@ -146,10 +146,10 @@ export default function OnboardingPage() {
           <div className="space-y-4 animate-fadeIn">
             <div>
               <h2 className="text-base font-bold text-white flex items-center gap-2">
-                <span>1. Cribado de Seguridad de Tono Basal</span>
+                <span>1. Chequeo de Tensión en tu Suelo Pélvico</span>
               </h2>
               <p className="text-xs text-gray-400 mt-1 leading-relaxed">
-                Regla clínica no negociable: Si existe espasmo o contractura perineal, cualquier contracción activa generaría sobrecarga. Calibramos tu tono basal antes de continuar.
+                Antes de iniciar, verificamos si tus músculos están relajados o contracturados. Si existe tensión excesiva, adaptaremos tu rutina para protegerte y evitar molestias.
               </p>
             </div>
 
@@ -167,7 +167,7 @@ export default function OnboardingPage() {
               onClick={nextStep}
               className="w-full h-12 rounded-xl bg-[#00E5FF] text-[#090A0F] font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#00cce6] active:scale-[0.99] transition-all cursor-pointer shadow-lg shadow-cyan-500/20"
             >
-              <span>Continuar a Evaluación PEDT/IELT</span>
+              <span>Continuar a Medición de Control</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
@@ -180,10 +180,10 @@ export default function OnboardingPage() {
           <div className="space-y-4 animate-fadeIn">
             <div>
               <h2 className="text-base font-bold text-white flex items-center gap-2">
-                <span>2. Herramienta PEDT y Registro de IELT</span>
+                <span>2. Tu Punto de Partida (Control y Tiempo)</span>
               </h2>
               <p className="text-xs text-gray-400 mt-1 leading-relaxed">
-                Herramienta diagnóstica validada internacionalmente para cuantificar la severidad y el tiempo de latencia intravaginal medio.
+                Estas 5 preguntas clínicas nos permiten medir tu nivel de control actual y tu tiempo aproximado para comparar tus avances semana a semana.
               </p>
             </div>
 
@@ -201,7 +201,7 @@ export default function OnboardingPage() {
               onClick={nextStep}
               className="w-full h-12 rounded-xl bg-[#00E5FF] text-[#090A0F] font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#00cce6] active:scale-[0.99] transition-all cursor-pointer shadow-lg shadow-cyan-500/20"
             >
-              <span>Continuar a Perfil STP</span>
+              <span>Continuar a Factores Mentales</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
@@ -214,20 +214,20 @@ export default function OnboardingPage() {
           <div className="space-y-4 animate-fadeIn">
             <div>
               <h2 className="text-base font-bold text-white flex items-center gap-2">
-                <span>3. Factores STP y Ruta de Tratamiento</span>
+                <span>3. Tu Mente, Tus Emociones y Tu Entorno</span>
               </h2>
               <p className="text-xs text-gray-400 mt-1 leading-relaxed">
-                Mapeo sexológico de factores biológicos, psicológicos y contextuales (Sexual Tipping Point®).
+                El control eyaculatorio es mente y cuerpo. La preocupación por el tiempo o la respiración superficial aceleran el reflejo involuntariamente.
               </p>
             </div>
 
             {/* Selector de Modalidad: Individual vs Con Pareja */}
             <div className="oled-card p-4 space-y-2 border border-[#212838]">
               <span className="text-xs font-semibold text-white block">
-                ¿Realizarás el reto con o sin pareja?
+                ¿Cómo realizarás las prácticas avanzadas (semanas 7 a 12)?
               </span>
-              <p className="text-[11px] text-gray-400">
-                La plataforma bifurca automáticamente las fases 3, 4 y 5 hacia Stop-Start Individual si no tienes pareja.
+              <p className="text-[11px] text-gray-400 leading-relaxed">
+                Las primeras 6 semanas son ejercicios individuales. En las semanas avanzadas (técnicas Stop-Start y Squeeze) podrás realizarlas de forma individual o en pareja.
               </p>
               <div className="grid grid-cols-2 gap-2.5 pt-1">
                 <button
@@ -253,7 +253,7 @@ export default function OnboardingPage() {
                   }`}
                 >
                   <Users className="w-5 h-5 text-[#7C4DFF]" />
-                  <span>Ruta Integrada en Pareja</span>
+                  <span>Ruta en Pareja</span>
                 </button>
               </div>
             </div>
@@ -269,7 +269,7 @@ export default function OnboardingPage() {
               onClick={nextStep}
               className="w-full h-12 rounded-xl bg-[#00E5FF] text-[#090A0F] font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#00cce6] active:scale-[0.99] transition-all cursor-pointer shadow-lg shadow-cyan-500/20"
             >
-              <span>Generar Plan Personalizado</span>
+              <span>Ver Mi Plan Personalizado</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
@@ -285,10 +285,10 @@ export default function OnboardingPage() {
                 <Sparkles className="w-7 h-7" />
               </div>
               <h2 className="text-lg font-bold text-white">
-                Protocolo Personalizado Calibrado
+                ¡Tu Plan de 12 Semanas está Listo!
               </h2>
-              <p className="text-xs text-gray-400 max-w-xs mx-auto mt-1">
-                Hemos ajustado las 12 semanas basándonos en tu biomecánica y perfil clínico.
+              <p className="text-xs text-gray-400 max-w-xs mx-auto mt-1 leading-relaxed">
+                Hemos configurado tu rutina basándonos en tu tono muscular, tu tiempo actual y tu balance mente-cuerpo.
               </p>
             </div>
 

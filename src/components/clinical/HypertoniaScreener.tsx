@@ -7,7 +7,8 @@ import {
   AlertTriangle,
   Info,
   CheckCircle2,
-  Lock
+  Lock,
+  Heart
 } from 'lucide-react';
 import { HypertoniaSymptoms } from '@/core/types/clinical.types';
 import { evaluateHypertonia } from '@/core/clinical/clinicalAssessmentEvaluator';
@@ -26,27 +27,27 @@ const SYMPTOM_DEFINITIONS: {
 }[] = [
   {
     key: 'pelvic_pain',
-    title: 'Dolor o Tensión Perineal en Reposo',
-    description: 'Molestia, pesadez o contractura en la zona entre los testículos y el ano.',
-    clinicalNote: 'Indica espasmo del elevador del ano o punto gatillo miofascial activo.'
+    title: 'Molestia o Pesadez en la Entrepierna en Reposo',
+    description: 'Sensación de contractura, dolor sordo o como si tuvieras una pelota de tenis entre los testículos y el ano al estar sentado.',
+    clinicalNote: 'Indica que los músculos profundos están tensos incluso cuando estás descansando.'
   },
   {
     key: 'urinary_hesitancy',
-    title: 'Micción Vacilante o Dificultad Inicial',
-    description: 'Tardar varios segundos en iniciar el chorro de orina o chorro intermitente.',
-    clinicalNote: 'Denota falta de relajación refleja del esfínter uretral externo.'
+    title: 'Dificultad o Demora al Comenzar a Orinar',
+    description: 'Tardar varios segundos frente al inodoro antes de que salga el chorro, o notar que sale débil o con interrupciones.',
+    clinicalNote: 'Ocurre cuando el esfínter está tan apretado que le cuesta abrirse voluntariamente.'
   },
   {
     key: 'post_ejaculatory_burning',
-    title: 'Escozor o Ardor Post-Eyaculatorio',
-    description: 'Sensación de quemazón o dolor urogenital durante o después del orgasmo.',
-    clinicalNote: 'Signo clásico de sobrecarga fásica y atrapamiento del nervio pudendo.'
+    title: 'Ardor o Tirón Después de Eyacular',
+    description: 'Sensación de quemazón, molestia o fatiga en la zona íntima durante los minutos posteriores al orgasmo.',
+    clinicalNote: 'Señal clásica de que el músculo pélvico se sobrecargó durante el espasmo eyaculatorio.'
   },
   {
     key: 'tenesmus',
-    title: 'Sensación de Tenesmo o Espasmo Anal',
-    description: 'Sensación persistente de evacuación incompleta o calambres perianales.',
-    clinicalNote: 'Hipertonía del haz puborrectal y del esfínter anal interno.'
+    title: 'Sensación de Tensión o Presión en el Ano',
+    description: 'Sentir que el ano está apretado de manera inconsciente, o sensación de querer evacuar sin necesidad real.',
+    clinicalNote: 'El músculo del esfínter anal comparte las mismas fibras que el suelo pélvico.'
   }
 ];
 
@@ -82,6 +83,22 @@ export function HypertoniaScreener({
 
   return (
     <div className="space-y-4">
+      {/* Guía Explicativa Amigable */}
+      <div className="oled-card p-4 bg-gradient-to-br from-[#11141E] to-[#0D101A] border border-[#212838] flex items-start gap-3">
+        <div className="p-2 rounded-xl bg-[#00E5FF]/10 text-[#00E5FF] shrink-0 mt-0.5">
+          <Info className="w-5 h-5" />
+        </div>
+        <div className="space-y-1 text-xs text-gray-300">
+          <span className="font-bold text-white block">¿Por qué evaluamos esto primero?</span>
+          <p className="text-[11px] text-gray-400 leading-relaxed">
+            Existe el mito de que la eyaculación precoz siempre se debe a un músculo &quot;débil&quot;. En realidad, muchos hombres tienen el músculo <strong className="text-white">demasiado tenso o contracturado</strong>. Si obligamos a apretar un músculo ya contracturado, el problema empeora.
+          </p>
+          <p className="text-[11px] text-[#00E5FF] font-medium leading-relaxed">
+            Marca si experimentas alguna de las siguientes sensaciones con regularidad:
+          </p>
+        </div>
+      </div>
+
       {/* Banner de Estado Clínico en Tiempo Real */}
       {evaluation.hasHypertonia ? (
         <div className="p-4 rounded-2xl bg-[#FF1744]/10 border border-[#FF1744]/40 glow-crimson animate-fadeIn">
@@ -92,85 +109,71 @@ export function HypertoniaScreener({
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold uppercase tracking-wider text-[#FF1744]">
-                  Bloqueador Clínico Activado
+                  Tensión Muscular Detectada
                 </span>
                 <span className="text-[10px] bg-[#FF1744]/20 text-[#FF1744] px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
-                  <Lock className="w-2.5 h-2.5" /> Forzado Down-Training
+                  <Lock className="w-2.5 h-2.5" /> Ruta Protectora Activada
                 </span>
               </div>
               <p className="text-xs text-gray-200 mt-1 leading-relaxed">
-                {evaluation.clinicalRationale}
+                Tus respuestas indican que tu suelo pélvico acumula tensión constante. Para tu seguridad, tu programa comenzará con <strong>ejercicios de relajación y elongación (Kegel Inverso)</strong> para liberar la musculatura antes de realizar contracciones activas.
               </p>
               <div className="mt-2 text-[11px] text-gray-400 bg-[#090A0F]/60 p-2.5 rounded-lg border border-[#212838]">
-                <strong>Acción inmediata:</strong> Se cancelan las contracciones fásicas/tónicas. Tu sesión consistirá en 10 minutos de <strong>Kegel Inverso con respiración diafragmática</strong> para evitar isquemia perineal.
+                <strong>Beneficio para ti:</strong> Aprender a relajar el músculo reduce la urgencia eyaculatoria y previene molestias perineales.
               </div>
             </div>
           </div>
         </div>
       ) : (
-        <div className="p-4 rounded-2xl bg-[#00E676]/10 border border-[#00E676]/30 glow-emerald animate-fadeIn">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-[#00E676]/20 text-[#00E676] shrink-0">
-              <ShieldCheck className="w-5 h-5 text-[#00E676]" />
-            </div>
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#00E676]">
-                Tono Basal Normalizado
-              </span>
-              <p className="text-xs text-gray-300 mt-0.5">
-                Cero signos de hipertonía perineal. Protocolo neuromuscular completo (Tónico + Fásico) habilitado.
-              </p>
-            </div>
+        <div className="p-3.5 rounded-2xl bg-[#00E676]/10 border border-[#00E676]/30 flex items-center gap-3">
+          <div className="p-1.5 rounded-xl bg-[#00E676]/20 text-[#00E676] shrink-0">
+            <ShieldCheck className="w-4 h-4 text-[#00E676]" />
+          </div>
+          <div className="text-xs">
+            <span className="font-bold text-[#00E676] block">Suelo Pélvico en Buen Tono</span>
+            <span className="text-[11px] text-gray-400">
+              No se detectaron contracturas basales. Podrás iniciar directamente con tonificación y control de resistencia.
+            </span>
           </div>
         </div>
       )}
 
-      {/* Lista Interactiva de Síntomas */}
+      {/* Tarjetas de Síntomas Seleccionables */}
       <div className="space-y-2.5">
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-1">
-          Cuestionario de Cribado de Tono (Selecciona si aplica):
-        </p>
-
-        {SYMPTOM_DEFINITIONS.map((def) => {
-          const isChecked = symptoms[def.key];
+        {SYMPTOM_DEFINITIONS.map((symptom) => {
+          const isSelected = symptoms[symptom.key];
           return (
             <div
-              key={def.key}
-              onClick={() => toggleSymptom(def.key)}
-              className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
-                isChecked
-                  ? 'bg-[#FF1744]/10 border-[#FF1744]/50 shadow-md shadow-red-950/20'
-                  : 'bg-[#11141E] border-[#212838] hover:border-gray-700'
+              key={symptom.key}
+              onClick={() => toggleSymptom(symptom.key)}
+              className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-start gap-3 select-none ${
+                isSelected
+                  ? 'bg-[#FF1744]/10 border-[#FF1744] text-white shadow-md'
+                  : 'bg-[#11141E] border-[#212838] text-gray-300 hover:border-gray-600'
               }`}
             >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <span
-                      className={`text-xs font-semibold ${
-                        isChecked ? 'text-[#FF1744]' : 'text-white'
-                      }`}
-                    >
-                      {def.title}
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-gray-400 mt-1 leading-snug">
-                    {def.description}
-                  </p>
-                  <p className="text-[10px] text-gray-500 italic mt-1">
-                    Criterio: {def.clinicalNote}
-                  </p>
-                </div>
+              <div
+                className={`w-5 h-5 rounded-lg border flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
+                  isSelected
+                    ? 'bg-[#FF1744] border-[#FF1744] text-white'
+                    : 'border-gray-500 bg-[#090A0F]'
+                }`}
+              >
+                {isSelected && <CheckCircle2 className="w-3.5 h-3.5" />}
+              </div>
 
-                <div
-                  className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 transition-all ${
-                    isChecked
-                      ? 'bg-[#FF1744] text-white shadow-sm'
-                      : 'border border-gray-600 bg-[#090A0F]'
-                  }`}
-                >
-                  {isChecked && <CheckCircle2 className="w-4 h-4 text-white" />}
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-xs font-bold leading-tight text-white">
+                    {symptom.title}
+                  </h4>
                 </div>
+                <p className="text-[11px] text-gray-300 leading-relaxed">
+                  {symptom.description}
+                </p>
+                <p className="text-[10px] text-gray-400 italic pt-0.5">
+                  💡 {symptom.clinicalNote}
+                </p>
               </div>
             </div>
           );
@@ -181,9 +184,9 @@ export function HypertoniaScreener({
         <button
           type="button"
           onClick={handleConfirm}
-          className="w-full h-12 rounded-xl bg-gradient-to-r from-[#00E5FF] to-[#7C4DFF] text-[#090A0F] font-bold text-sm flex items-center justify-center gap-2 hover:opacity-95 active:scale-[0.99] transition-all shadow-lg shadow-cyan-500/20 cursor-pointer"
+          className="w-full h-11 rounded-xl bg-[#00E5FF] text-[#090A0F] font-bold text-xs flex items-center justify-center gap-2 hover:bg-[#00cce6] transition-colors cursor-pointer"
         >
-          <span>Confirmar y Calibrar Protocolo</span>
+          <span>Confirmar Estado Basal</span>
         </button>
       )}
     </div>
