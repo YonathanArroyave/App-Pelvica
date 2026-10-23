@@ -38,8 +38,8 @@ export const BiofeedbackOrb: React.FC<BiofeedbackOrbProps> = ({
   const getStatusText = () => {
     if (isReverseKegel) {
       return {
-        verb: 'ABRE Y ELONGA',
-        detail: 'Expansión consciente'
+        verb: 'SUELTA Y DEJA CAER',
+        detail: 'Como al empezar a orinar • Inhala profundo y abre la entrepierna'
       };
     }
     if (factor > 0.7) {
@@ -114,7 +114,7 @@ export const BiofeedbackOrb: React.FC<BiofeedbackOrbProps> = ({
             {factor >= 0 ? `${Math.round(factor * 100)}%` : `${Math.round(factor * 100)}%`}
           </span>
           <span className="text-[8px] font-bold text-gray-400 uppercase tracking-tighter">
-            {factor > 0 ? 'Tensión' : factor < -0.1 ? 'Elonga' : 'Neutro'}
+            {factor > 0 ? 'Tensión' : factor < -0.1 ? 'Suelta' : 'Neutro'}
           </span>
         </div>
       </div>

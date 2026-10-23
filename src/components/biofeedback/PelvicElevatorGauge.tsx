@@ -48,7 +48,7 @@ export const PelvicElevatorGauge: React.FC<PelvicElevatorGaugeProps> = ({
         floor: 'SÓTANO',
         level: 'Kegel Inverso',
         color: '#00E676',
-        instruction: 'Desciende suavemente sin pujar'
+        instruction: 'Suelta el músculo hacia abajo como al orinar (sin pujar)'
       };
     }
     if (factor >= 0.8) {

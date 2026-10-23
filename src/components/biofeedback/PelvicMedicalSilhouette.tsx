@@ -46,8 +46,8 @@ export const PelvicMedicalSilhouette: React.FC<PelvicMedicalSilhouetteProps> = (
   const getSomaticCue = () => {
     if (isReverseKegel) {
       return {
-        action: 'ELONGACIÓN DESCENDENTE',
-        desc: 'Suelta hacia abajo como si comenzaras a orinar',
+        action: 'SUELTA EL PERINEO',
+        desc: 'Deja caer el músculo como al iniciar la orina (sin pujar)',
         arrow: '↓'
       };
     }
