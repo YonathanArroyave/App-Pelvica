@@ -44,6 +44,7 @@ interface PatientState {
   useGraceToken: () => boolean;
   addXp: (amount: number) => void;
   unlockAchievement: (code: string) => boolean;
+  importBackupData: (data: any) => boolean;
   resetProgress: () => void;
 }
 
@@ -244,6 +245,26 @@ export const usePatientStore = create<PatientState>()(
           return true;
         }
         return false;
+      },
+
+      importBackupData: (data: any) => {
+        if (!data || !data.profile) return false;
+        try {
+          set({
+            profile: {
+              ...DEFAULT_PROFILE,
+              ...data.profile,
+              updated_at: new Date().toISOString()
+            },
+            assessments: Array.isArray(data.assessments) ? data.assessments : [],
+            trainingSessions: Array.isArray(data.trainingSessions) ? data.trainingSessions : [],
+            unlockedAchievements: Array.isArray(data.unlockedAchievements) ? data.unlockedAchievements : [],
+            isLocked: false
+          });
+          return true;
+        } catch {
+          return false;
+        }
       },
 
       resetProgress: () =>

@@ -6,6 +6,7 @@ import {
   Lock,
   KeyRound,
   Download,
+  Upload,
   Trash2,
   X,
   Check,
@@ -33,6 +34,7 @@ export const PatientProfileModal: React.FC<PatientProfileModalProps> = ({
   const setPin = usePatientStore((s) => s.setPin);
   const removePin = usePatientStore((s) => s.removePin);
   const lockApp = usePatientStore((s) => s.lockApp);
+  const importBackupData = usePatientStore((s) => s.importBackupData);
 
   const [aliasInput, setAliasInput] = useState(profile.alias);
   const [newPin, setNewPin] = useState('');
@@ -40,6 +42,7 @@ export const PatientProfileModal: React.FC<PatientProfileModalProps> = ({
   const [pinMsg, setPinMsg] = useState<string | null>(null);
   const [showPinInput, setShowPinInput] = useState(false);
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [backupMsg, setBackupMsg] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
@@ -84,6 +87,32 @@ export const PatientProfileModal: React.FC<PatientProfileModalProps> = ({
     a.download = `pelvic-rehab-progreso-${profile.alias.toLowerCase()}-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const content = event.target?.result as string;
+        const parsed = JSON.parse(content);
+        const success = importBackupData(parsed);
+        if (success) {
+          setBackupMsg('¡Progreso restaurado con éxito!');
+          setTimeout(() => setBackupMsg(null), 3000);
+        } else {
+          setBackupMsg('Archivo no válido. Asegúrate de usar un respaldo de PelvicRehab.');
+          setTimeout(() => setBackupMsg(null), 4000);
+        }
+      } catch {
+        setBackupMsg('Error al leer el archivo JSON.');
+        setTimeout(() => setBackupMsg(null), 3000);
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
   };
 
   return (
@@ -231,14 +260,33 @@ export const PatientProfileModal: React.FC<PatientProfileModalProps> = ({
           <p className="text-[10px] text-gray-400 leading-relaxed">
             Tu historial de {trainingSessions.length} sesiones y {assessments.length} evaluaciones está guardado de forma privada en este dispositivo.
           </p>
-          <button
-            type="button"
-            onClick={handleExportData}
-            className="w-full py-2 rounded-xl bg-[#11141E] border border-[#212838] text-gray-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-1.5 hover:border-gray-500 transition-all cursor-pointer"
-          >
-            <Download className="w-3.5 h-3.5 text-[#00E5FF]" />
-            <span>Descargar Respaldo JSON</span>
-          </button>
+          <div className="grid grid-cols-2 gap-2 pt-1">
+            <button
+              type="button"
+              onClick={handleExportData}
+              className="py-2 px-2 rounded-xl bg-[#11141E] border border-[#212838] text-gray-300 hover:text-white text-[11px] font-semibold flex items-center justify-center gap-1.5 hover:border-gray-500 transition-all cursor-pointer"
+            >
+              <Download className="w-3.5 h-3.5 text-[#00E5FF]" />
+              <span>Descargar</span>
+            </button>
+
+            <label className="py-2 px-2 rounded-xl bg-[#11141E] border border-[#212838] text-gray-300 hover:text-white text-[11px] font-semibold flex items-center justify-center gap-1.5 hover:border-gray-500 transition-all cursor-pointer">
+              <Upload className="w-3.5 h-3.5 text-[#00E676]" />
+              <span>Restaurar</span>
+              <input
+                type="file"
+                accept=".json"
+                onChange={handleImportFile}
+                className="hidden"
+              />
+            </label>
+          </div>
+
+          {backupMsg && (
+            <p className="text-[10px] text-[#00E676] font-semibold text-center pt-1 animate-fadeIn">
+              {backupMsg}
+            </p>
+          )}
         </div>
       </div>
     </div>

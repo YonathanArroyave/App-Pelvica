@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { PinLockGate } from '@/components/auth/PinLockGate';
+import { ServiceWorkerRegister } from '@/components/pwa/ServiceWorkerRegister';
 
 export const metadata: Metadata = {
   title: 'PelvicRehab - 12 Semanas',
@@ -35,6 +36,7 @@ export default function RootLayout({
     <html lang="es" className="dark bg-[#090A0F]">
       <body className="bg-[#090A0F] text-[#F0F4F8] antialiased min-h-screen">
         <PinLockGate>{children}</PinLockGate>
+        <ServiceWorkerRegister />
       </body>
     </html>
   );
